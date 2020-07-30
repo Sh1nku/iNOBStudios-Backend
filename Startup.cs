@@ -1,13 +1,21 @@
+using iNOBStudios.Controllers;
 using iNOBStudios.Data;
+using iNOBStudios.Models.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Newtonsoft.Json;
+using System;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using iNOBStudios.Data.Repositories;
 
 namespace iNOBStudios
 {
@@ -31,6 +39,38 @@ namespace iNOBStudios
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddRoleManager<RoleManager<IdentityRole>>()
+                .AddSignInManager<SignInManager<ApplicationUser>>()
+                .AddDefaultTokenProviders()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            var confKey = Configuration.GetSection("TokenSettings")["SecretKey"];
+            var key = Encoding.ASCII.GetBytes(confKey);
+            services.ConfigureApplicationCookie(options => {
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
+            });
+
+            services.AddAuthentication()
+                .AddCookie(cfg => cfg.SlidingExpiration = true)
+                .AddJwtBearer(x =>
+                {
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+
+                        //NameClaimType = ClaimTypes.NameIdentifier,
+                        //RoleClaimType = ClaimTypes.Role,
+                        ValidateLifetime = false
+                    };
+                });
+
+            services.AddTransient<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +91,7 @@ namespace iNOBStudios
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
+
 
             app.UseAuthentication();
             app.UseStaticFiles();

@@ -5,12 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Repositories\" />
-    <Folder Include="Models\Entities\" />
+    <Compile Remove="Migrations\20200730212204_Initial DB.cs" />
+    <Compile Remove="Migrations\20200730212204_Initial DB.Designer.cs" />
+    <Compile Remove="Migrations\20200730212550_Initial DB.cs" />
+    <Compile Remove="Migrations\20200730212550_Initial DB.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.2" />
   </ItemGroup>
 
