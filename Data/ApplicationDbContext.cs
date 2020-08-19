@@ -16,6 +16,37 @@ namespace iNOBStudios.Data {
         protected override void OnModelCreating(ModelBuilder builder) {
             base.OnModelCreating(builder);
 
+            builder.Entity<PostTag>().
+                HasKey(x => new { x.PostId, x.TagId });
+            builder.Entity<PostTag>()
+                .HasOne(x => x.Post)
+                .WithMany(x => x.PostTags)
+                .HasForeignKey(x => x.PostId);
+
+            builder.Entity<PostTag>()
+                .HasOne(x => x.Tag)
+                .WithMany(x => x.PostTags)
+                .HasForeignKey(x => x.TagId);
+
+            builder.Entity<PostVersion>()
+                .HasOne(x => x.Post)
+                .WithOne(x => x.CurrentVersion)
+                .HasForeignKey<PostVersion>(x => x.PostVersionId);
+
+            //Indexes
+
+            builder.Entity<ExternalFile>()
+                .HasIndex(x => x.PostId);
+
+            //Auth
+            builder.Entity<ApplicationUser>(entity => entity.Property(m => m.ProfilePicture).HasMaxLength(191));
+            builder.Entity<ExternalFile>(entity => entity.Property(m => m.FileName).HasMaxLength(191));
+            builder.Entity<ExternalFile>(entity => entity.Property(m => m.MIMEType).HasMaxLength(128));
+            builder.Entity<Post>(entity => entity.Property(m => m.AuthorId).HasMaxLength(128));
+            builder.Entity<PostTag>(entity => entity.Property(m => m.TagId).HasMaxLength(64));
+            builder.Entity<Tag>(entity => entity.Property(m => m.TagId).HasMaxLength(64));
+            builder.Entity<PostVersion>(entity => entity.Property(m => m.Title).HasMaxLength(191));
+
             builder.Entity<ApplicationUser>(entity => entity.Property(m => m.Id).HasMaxLength(128));
             builder.Entity<ApplicationUser>(entity => entity.Property(m => m.UserName).HasMaxLength(128));
             builder.Entity<ApplicationUser>(entity => entity.Property(m => m.Email).HasMaxLength(128));
@@ -43,6 +74,11 @@ namespace iNOBStudios.Data {
             builder.Entity<IdentityRoleClaim<string>>(entity => entity.Property(m => m.RoleId).HasMaxLength(128));
 
         }
+
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<ExternalFile> ExternalFiles { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<PostVersion> PostVersions { get; set; }
 
     }
 }

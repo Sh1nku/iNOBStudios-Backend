@@ -53,7 +53,9 @@ namespace iNOBStudios.Controllers
 
         }
 
-        [HttpGet]
+
+        //Registration is disabled
+        /*[HttpGet]
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
@@ -86,7 +88,7 @@ namespace iNOBStudios.Controllers
         public IActionResult AccessDenied()
         {
             return View();
-        }
+        }*/
 
         [HttpGet]
         [Authorize]

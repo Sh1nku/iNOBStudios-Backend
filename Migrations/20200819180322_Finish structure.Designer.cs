@@ -9,8 +9,8 @@ using iNOBStudios.Data;
 namespace iNOBStudios.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200730213157_Initial DB")]
-    partial class InitialDB
+    [Migration("20200819180322_Finish structure")]
+    partial class Finishstructure
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -231,12 +231,112 @@ namespace iNOBStudios.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("iNOBStudios.Models.Entities.ExternalFile", b =>
+                {
+                    b.Property<string>("FileName")
+                        .HasColumnType("varchar(191) CHARACTER SET utf8mb4")
+                        .HasMaxLength(191);
+
+                    b.Property<string>("MIMEType")
+                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
+                        .HasMaxLength(128);
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PostedTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<byte[]>("RawFile")
+                        .HasColumnType("longblob");
+
+                    b.HasKey("FileName");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("ExternalFiles");
+                });
+
+            modelBuilder.Entity("iNOBStudios.Models.Entities.Post", b =>
+                {
+                    b.Property<int>("PostId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("AuthorId")
+                        .IsRequired()
+                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
+                        .HasMaxLength(128);
+
+                    b.Property<int>("CurrentVersionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PostId");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("iNOBStudios.Models.Entities.PostTag", b =>
+                {
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TagId")
+                        .HasColumnType("varchar(64) CHARACTER SET utf8mb4")
+                        .HasMaxLength(64);
+
+                    b.HasKey("PostId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("PostTag");
+                });
+
+            modelBuilder.Entity("iNOBStudios.Models.Entities.PostVersion", b =>
+                {
+                    b.Property<int>("PostVersionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PostedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("varchar(191) CHARACTER SET utf8mb4")
+                        .HasMaxLength(191);
+
+                    b.HasKey("PostVersionId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("PostVersions");
+                });
+
+            modelBuilder.Entity("iNOBStudios.Models.Entities.Tag", b =>
+                {
+                    b.Property<string>("TagId")
+                        .HasColumnType("varchar(64) CHARACTER SET utf8mb4")
+                        .HasMaxLength(64);
+
+                    b.HasKey("TagId");
+
+                    b.ToTable("Tags");
+                });
+
             modelBuilder.Entity("iNOBStudios.Models.Entities.ApplicationUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
                     b.Property<string>("ProfilePicture")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(191) CHARACTER SET utf8mb4")
+                        .HasMaxLength(191);
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
@@ -288,6 +388,54 @@ namespace iNOBStudios.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("iNOBStudios.Models.Entities.ExternalFile", b =>
+                {
+                    b.HasOne("iNOBStudios.Models.Entities.Post", "Post")
+                        .WithMany("ExternalFiles")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("iNOBStudios.Models.Entities.Post", b =>
+                {
+                    b.HasOne("iNOBStudios.Models.Entities.ApplicationUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("iNOBStudios.Models.Entities.PostTag", b =>
+                {
+                    b.HasOne("iNOBStudios.Models.Entities.Post", "Post")
+                        .WithMany("PostTags")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("iNOBStudios.Models.Entities.Tag", "Tag")
+                        .WithMany("PostTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("iNOBStudios.Models.Entities.PostVersion", b =>
+                {
+                    b.HasOne("iNOBStudios.Models.Entities.Post", null)
+                        .WithMany("PostVersions")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("iNOBStudios.Models.Entities.Post", "Post")
+                        .WithOne("CurrentVersion")
+                        .HasForeignKey("iNOBStudios.Models.Entities.PostVersion", "PostVersionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
