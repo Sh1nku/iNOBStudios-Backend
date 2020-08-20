@@ -11,7 +11,7 @@ namespace iNOBStudios.Models.Entities {
         public string FileName { get; set; }
         [MaxLength(128)]
         public string MIMEType { get; set; }
-        public byte[] RawFile { get; set; }
+        public virtual RawFile RawFile { get; set; }
         public DateTime PostedTime { get; set; }
         public int PostId { get; set; }
         public virtual Post Post { get; set; }

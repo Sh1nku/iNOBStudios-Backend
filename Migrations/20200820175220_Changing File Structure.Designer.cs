@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using iNOBStudios.Data;
 
 namespace iNOBStudios.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200820175220_Changing File Structure")]
+    partial class ChangingFileStructure
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -300,6 +302,9 @@ namespace iNOBStudios.Migrations
                     b.Property<DateTime>("PostedDate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("Text")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<string>("Title")
                         .HasColumnType("varchar(191) CHARACTER SET utf8mb4")
                         .HasMaxLength(191);
@@ -323,20 +328,6 @@ namespace iNOBStudios.Migrations
                     b.HasKey("FileName");
 
                     b.ToTable("RawFiles");
-                });
-
-            modelBuilder.Entity("iNOBStudios.Models.Entities.RawText", b =>
-                {
-                    b.Property<int>("PostVersionId")
-                        .HasColumnType("int")
-                        .HasMaxLength(191);
-
-                    b.Property<string>("Text")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("PostVersionId");
-
-                    b.ToTable("RawText");
                 });
 
             modelBuilder.Entity("iNOBStudios.Models.Entities.Tag", b =>
@@ -465,15 +456,6 @@ namespace iNOBStudios.Migrations
                     b.HasOne("iNOBStudios.Models.Entities.ExternalFile", "ExternalFile")
                         .WithOne("RawFile")
                         .HasForeignKey("iNOBStudios.Models.Entities.RawFile", "FileName")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("iNOBStudios.Models.Entities.RawText", b =>
-                {
-                    b.HasOne("iNOBStudios.Models.Entities.PostVersion", null)
-                        .WithOne("RawText")
-                        .HasForeignKey("iNOBStudios.Models.Entities.RawText", "PostVersionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
