@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 namespace iNOBStudios.Models.ViewModels.Account {
     public class LoginUserViewModel {
         [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        [DataType(DataType.Text)]
+        [MinLength(1)]
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

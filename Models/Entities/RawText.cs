@@ -10,6 +10,7 @@ namespace iNOBStudios.Models.Entities {
             [MaxLength(191)]
             [Key, ForeignKey("PostVersion")]
             public int PostVersionId { get; set; }
+            public virtual PostVersion PostVersion { get; set; }
             public string Text { get; set; }
     }
 }

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using iNOBStudios.Data;
 
 namespace iNOBStudios.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200821182005_Adding published tag to post")]
+    partial class Addingpublishedtagtopost
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -474,7 +476,7 @@ namespace iNOBStudios.Migrations
 
             modelBuilder.Entity("iNOBStudios.Models.Entities.RawText", b =>
                 {
-                    b.HasOne("iNOBStudios.Models.Entities.PostVersion", "PostVersion")
+                    b.HasOne("iNOBStudios.Models.Entities.PostVersion", null)
                         .WithOne("RawText")
                         .HasForeignKey("iNOBStudios.Models.Entities.RawText", "PostVersionId")
                         .OnDelete(DeleteBehavior.Cascade)

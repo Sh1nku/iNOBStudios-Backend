@@ -8,5 +8,7 @@ namespace iNOBStudios.Data.Repositories {
     public interface IPostRepository {
         public Post GetPostByPostId(int postId, bool track = false, string[] info = null);
         public IEnumerable<PostVersion> GetPostVersionsByPostId(int postId, bool track = false, string[] info = null);
+
+        public Post CreatePost(Post post);
     }
 }

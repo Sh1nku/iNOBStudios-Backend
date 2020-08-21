@@ -12,6 +12,12 @@ namespace iNOBStudios.Data.Repositories {
             this.db = db;
         }
 
+        public Post CreatePost(Post post) {
+            db.Posts.Add(post);
+            db.SaveChanges();
+            return post;
+        }
+
         public Post GetPostByPostId(int postId, bool track = false, string[] info = null) {
             var post = db.Posts.AsQueryable();
             foreach (var include in info ?? Enumerable.Empty<string>()) {

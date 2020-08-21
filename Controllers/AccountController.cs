@@ -38,7 +38,7 @@ namespace iNOBStudios.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     return RedirectToLocal(returnUrl);
@@ -55,7 +55,7 @@ namespace iNOBStudios.Controllers
 
 
         //Registration is disabled
-        /*[HttpGet]
+        [HttpGet]
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
@@ -88,7 +88,7 @@ namespace iNOBStudios.Controllers
         public IActionResult AccessDenied()
         {
             return View();
-        }*/
+        }
 
         [HttpGet]
         [Authorize]
@@ -105,7 +105,7 @@ namespace iNOBStudios.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(HomeController.Index), nameof(HomeController));
+                return RedirectToAction("Index", "Home");
             }
         }
 

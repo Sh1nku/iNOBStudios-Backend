@@ -9,8 +9,10 @@ namespace iNOBStudios.Models.Entities
     public class Post {
         [Key]
         public int PostId { get; set; }
-        
+        [Required]
         public int CurrentVersionId { get; set; }
+        [Required]
+        public bool Published { get; set; }
         public virtual PostVersion CurrentVersion { get; set; }
         public virtual IEnumerable<PostVersion> PostVersions { get; set; }
         [Required]
