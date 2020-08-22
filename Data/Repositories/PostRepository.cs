@@ -29,6 +29,17 @@ namespace iNOBStudios.Data.Repositories {
             return post.Where(x => x.PostId == postId).AsNoTracking().SingleOrDefault();
         }
 
+        public IEnumerable<Post> GetPosts(bool track = false, string[] info = null) {
+            var posts = db.Posts.AsQueryable();
+            foreach (var include in info ?? Enumerable.Empty<string>()) {
+                posts = posts.Include(include);
+            }
+            if (track) {
+                return posts;
+            }
+            return posts.AsNoTracking();
+        }
+
         public IEnumerable<PostVersion> GetPostVersionsByPostId(int postId, bool track = false, string[] info = null) {
             var posts = db.PostVersions.AsQueryable();
             foreach (var include in info ?? Enumerable.Empty<string>()) {

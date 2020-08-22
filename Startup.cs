@@ -47,6 +47,7 @@ namespace iNOBStudios
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             var confKey = Configuration.GetSection("TokenSettings")["SecretKey"];
+            AccountWebController.TOKEN = confKey;
             var key = Encoding.ASCII.GetBytes(confKey);
             services.ConfigureApplicationCookie(options => {
                 options.LoginPath = "/Account/Login";

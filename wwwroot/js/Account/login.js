@@ -1,8 +1,8 @@
 ﻿function createJwt(url, form) {
-    let email = $("#email").val();
+    let username = $("#username").val();
     let password = $('#password').val();
 
-    let json = '{ "email" : "' + email + '", "password" : "' + password + '" }';
+    let json = '{ "username" : "' + username + '", "password" : "' + password + '" }';
 
     $.ajax({
         url: url,
@@ -21,7 +21,7 @@
 
 $(document).ready(function () {
     let pwdField = document.getElementById("password");
-    let emailField = document.getElementById("email");
+    let usernameField = document.getElementById("username");
     let button = document.getElementById("button");
     pwdField.addEventListener("keydown", function (event) {
         if (event.keyCode === 13) {
@@ -29,7 +29,7 @@ $(document).ready(function () {
             button.click();
         }
     });
-    emailField.addEventListener("keydown", function (event) {
+    usernameField.addEventListener("keydown", function (event) {
         if (event.keyCode === 13) {
             event.preventDefault();
             button.click();

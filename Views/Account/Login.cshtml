@@ -5,7 +5,7 @@
 }
 
 @section Head {
-    <script src="~/js/Account/login.js"></script>
+    <script src="~/js/Account/login.js", asp-append-version="true"></script>
 }
 
 <h1>Log in</h1>
@@ -20,7 +20,7 @@
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="UserName"></label>
-                    <input asp-for="UserName" class="form-control" id="email" />
+                    <input asp-for="UserName" class="form-control" id="username" />
                     <span asp-validation-for="UserName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -39,7 +39,7 @@
             </section>
         </form>
         <div class="form-group">
-            <button class="btn btn-primary" id="button" onclick="createJwt('../api/Token', $('#account'));">Log in</button>
+            <button class="btn btn-primary" id="button" onclick="createJwt('../api/Account', $('#account'));">Log in</button>
         </div>
         <div class="form-group">
             <p>

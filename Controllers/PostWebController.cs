@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace iNOBStudios.Controllers
 {
-    [Route("api/Posts")]
+    [Route("api/Post")]
     [ApiController]
     public class PostWebController : ControllerBase
     {
