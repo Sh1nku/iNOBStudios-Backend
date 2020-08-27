@@ -35,7 +35,8 @@ namespace iNOBStudios
 
             }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
             .AddJsonOptions(options => 
-            options.JsonSerializerOptions.IgnoreNullValues = true);
+            options.JsonSerializerOptions.IgnoreNullValues = true)
+            .AddRazorRuntimeCompilation();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));

@@ -4,7 +4,11 @@
 }
 
 @section Head {
-    <script src="~/js/Admin/Index.js" asp-append-version="true"></script>
+    <link rel="stylesheet" type="text/css" href="~/css/modalStyle.css">
+
+    <script src="~/js/Admin/Index/store.js" asp-append-version="true"></script>
+    <script src="~/js/Admin/Index/createPostModal.js" asp-append-version="true"></script>
+    <script src="~/js/Admin/Index/index.js" asp-append-version="true"></script>
 }
 
 <script type="text/javascript">
@@ -33,11 +37,12 @@
                             <th>{{post.versions}}</th>
                         </tr>
                         <tr>
-                            <th colspan="2"><button class="btn btn-primary" style="float:right">Create Post</button></th>
+                            <th colspan="2"><button class="btn btn-primary" style="float:right" @@click="toggleCreatePostVisible">Create Post</button></th>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </template>
+    <create-post-modal v-if="createPostVisible"></create-post-modal>
 </div>
