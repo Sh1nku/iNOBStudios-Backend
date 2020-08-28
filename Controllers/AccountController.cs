@@ -55,7 +55,7 @@ namespace iNOBStudios.Controllers
 
 
         //Registration is disabled
-        /*[HttpGet]
+        [HttpGet]
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
@@ -77,7 +77,7 @@ namespace iNOBStudios.Controllers
 
             }
             return View(model);
-        }*/
+        }
 
         public IActionResult Logout()
         {

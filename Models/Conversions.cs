@@ -12,12 +12,12 @@ namespace iNOBStudios.Models {
         public static PostViewModel PostViewModelFromPost(Post post) {
             return new PostViewModel() {
                 AuthorId = post.AuthorId,
-                CurrentVersionId = post.CurrentVersionId,
                 PostId = post.PostId,
                 ExternalFiles = post.ExternalFiles?.Select(x => ExternalFileViewModelFromExternalFile(x)).ToList(),
                 PostTags = post.PostTags?.Select(x => x.TagId).ToList(),
                 PostVersions = post.PostVersions?.Select(x => PostVersionViewModelFromPostVersion(x)).ToList(),
-                CurrentVersion = post.CurrentVersion != null ? PostVersionViewModelFromPostVersion(post.CurrentVersion) : null
+                CurrentVersion = post.CurrentVersion != null ? PostVersionViewModelFromPostVersion(post.CurrentVersion) : null,
+                Published = post.Published
             };
         }
 

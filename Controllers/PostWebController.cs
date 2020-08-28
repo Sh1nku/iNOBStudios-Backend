@@ -29,17 +29,21 @@ namespace iNOBStudios.Controllers
         [HttpPost]
         public IActionResult CreatePost([FromBody] CreatePostViewModel model) {
             var user = userRepository.GetApplicationUserByUsername(User.Identity.Name, true);
-            var post = new Post() {
-                Author = user,
-                Published = false
+            if(user == null) {
+                return Unauthorized();
+            }
+            var rawText = new RawText() {
+                Text = ""
             };
             var postVersion = new PostVersion() {
-                Post = post,
-                Title = model.Title
+                Title = model.Title,
+                RawText = rawText
             };
-            var rawText = new RawText() {
-                PostVersion = postVersion,
-                Text = ""
+            var post = new Post() {
+                Author = user,
+                Published = false,
+                CurrentVersion = postVersion,
+                PostVersions = new List<PostVersion>() { postVersion }
             };
             try {
                 post = postRepository.CreatePost(post);

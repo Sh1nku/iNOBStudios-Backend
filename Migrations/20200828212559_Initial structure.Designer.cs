@@ -9,8 +9,8 @@ using iNOBStudios.Data;
 namespace iNOBStudios.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200821182005_Adding published tag to post")]
-    partial class Addingpublishedtagtopost
+    [Migration("20200828212559_Initial structure")]
+    partial class Initialstructure
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -265,9 +265,6 @@ namespace iNOBStudios.Migrations
                         .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
                         .HasMaxLength(128);
 
-                    b.Property<int>("CurrentVersionId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("Published")
                         .HasColumnType("tinyint(1)");
 
@@ -297,6 +294,10 @@ namespace iNOBStudios.Migrations
             modelBuilder.Entity("iNOBStudios.Models.Entities.PostVersion", b =>
                 {
                     b.Property<int>("PostVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("CurrentVersionId")
                         .HasColumnType("int");
 
                     b.Property<int>("PostId")
@@ -310,6 +311,9 @@ namespace iNOBStudios.Migrations
                         .HasMaxLength(191);
 
                     b.HasKey("PostVersionId");
+
+                    b.HasIndex("CurrentVersionId")
+                        .IsUnique();
 
                     b.HasIndex("PostId");
 
@@ -341,7 +345,7 @@ namespace iNOBStudios.Migrations
 
                     b.HasKey("PostVersionId");
 
-                    b.ToTable("RawText");
+                    b.ToTable("RawTexts");
                 });
 
             modelBuilder.Entity("iNOBStudios.Models.Entities.Tag", b =>
@@ -452,15 +456,15 @@ namespace iNOBStudios.Migrations
 
             modelBuilder.Entity("iNOBStudios.Models.Entities.PostVersion", b =>
                 {
-                    b.HasOne("iNOBStudios.Models.Entities.Post", null)
-                        .WithMany("PostVersions")
-                        .HasForeignKey("PostId")
+                    b.HasOne("iNOBStudios.Models.Entities.Post", "CurrentVersion")
+                        .WithOne("CurrentVersion")
+                        .HasForeignKey("iNOBStudios.Models.Entities.PostVersion", "CurrentVersionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("iNOBStudios.Models.Entities.Post", "Post")
-                        .WithOne("CurrentVersion")
-                        .HasForeignKey("iNOBStudios.Models.Entities.PostVersion", "PostVersionId")
+                        .WithMany("PostVersions")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -476,7 +480,7 @@ namespace iNOBStudios.Migrations
 
             modelBuilder.Entity("iNOBStudios.Models.Entities.RawText", b =>
                 {
-                    b.HasOne("iNOBStudios.Models.Entities.PostVersion", null)
+                    b.HasOne("iNOBStudios.Models.Entities.PostVersion", "PostVersion")
                         .WithOne("RawText")
                         .HasForeignKey("iNOBStudios.Models.Entities.RawText", "PostVersionId")
                         .OnDelete(DeleteBehavior.Cascade)

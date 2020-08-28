@@ -22,16 +22,10 @@ namespace iNOBStudios.Data {
                 .HasOne(x => x.Post)
                 .WithMany(x => x.PostTags)
                 .HasForeignKey(x => x.PostId);
-
             builder.Entity<PostTag>()
                 .HasOne(x => x.Tag)
                 .WithMany(x => x.PostTags)
                 .HasForeignKey(x => x.TagId);
-
-            builder.Entity<PostVersion>()
-                .HasOne(x => x.Post)
-                .WithOne(x => x.CurrentVersion)
-                .HasForeignKey<PostVersion>(x => x.PostVersionId);
 
             //Indexes
 
@@ -80,6 +74,7 @@ namespace iNOBStudios.Data {
         public DbSet<RawFile> RawFiles { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<PostVersion> PostVersions { get; set; }
+        public DbSet<RawText> RawTexts { get; set; }
 
     }
 }

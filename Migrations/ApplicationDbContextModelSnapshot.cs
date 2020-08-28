@@ -263,9 +263,6 @@ namespace iNOBStudios.Migrations
                         .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
                         .HasMaxLength(128);
 
-                    b.Property<int>("CurrentVersionId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("Published")
                         .HasColumnType("tinyint(1)");
 
@@ -295,6 +292,10 @@ namespace iNOBStudios.Migrations
             modelBuilder.Entity("iNOBStudios.Models.Entities.PostVersion", b =>
                 {
                     b.Property<int>("PostVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("CurrentVersionId")
                         .HasColumnType("int");
 
                     b.Property<int>("PostId")
@@ -308,6 +309,9 @@ namespace iNOBStudios.Migrations
                         .HasMaxLength(191);
 
                     b.HasKey("PostVersionId");
+
+                    b.HasIndex("CurrentVersionId")
+                        .IsUnique();
 
                     b.HasIndex("PostId");
 
@@ -339,7 +343,7 @@ namespace iNOBStudios.Migrations
 
                     b.HasKey("PostVersionId");
 
-                    b.ToTable("RawText");
+                    b.ToTable("RawTexts");
                 });
 
             modelBuilder.Entity("iNOBStudios.Models.Entities.Tag", b =>
@@ -450,15 +454,15 @@ namespace iNOBStudios.Migrations
 
             modelBuilder.Entity("iNOBStudios.Models.Entities.PostVersion", b =>
                 {
-                    b.HasOne("iNOBStudios.Models.Entities.Post", null)
-                        .WithMany("PostVersions")
-                        .HasForeignKey("PostId")
+                    b.HasOne("iNOBStudios.Models.Entities.Post", "CurrentVersion")
+                        .WithOne("CurrentVersion")
+                        .HasForeignKey("iNOBStudios.Models.Entities.PostVersion", "CurrentVersionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("iNOBStudios.Models.Entities.Post", "Post")
-                        .WithOne("CurrentVersion")
-                        .HasForeignKey("iNOBStudios.Models.Entities.PostVersion", "PostVersionId")
+                        .WithMany("PostVersions")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

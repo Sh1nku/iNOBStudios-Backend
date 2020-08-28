@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace iNOBStudios.Migrations
 {
-    public partial class Finishstructure : Migration
+    public partial class Initialstructure : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -172,7 +172,7 @@ namespace iNOBStudios.Migrations
                 {
                     PostId = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    CurrentVersionId = table.Column<int>(nullable: false),
+                    Published = table.Column<bool>(nullable: false),
                     AuthorId = table.Column<string>(maxLength: 128, nullable: false)
                 },
                 constraints: table =>
@@ -192,7 +192,6 @@ namespace iNOBStudios.Migrations
                 {
                     FileName = table.Column<string>(maxLength: 191, nullable: false),
                     MIMEType = table.Column<string>(maxLength: 128, nullable: true),
-                    RawFile = table.Column<byte[]>(nullable: true),
                     PostedTime = table.Column<DateTime>(nullable: false),
                     PostId = table.Column<int>(nullable: false)
                 },
@@ -235,26 +234,63 @@ namespace iNOBStudios.Migrations
                 name: "PostVersions",
                 columns: table => new
                 {
-                    PostVersionId = table.Column<int>(nullable: false),
+                    PostVersionId = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     PostId = table.Column<int>(nullable: false),
+                    CurrentVersionId = table.Column<int>(nullable: false),
                     PostedDate = table.Column<DateTime>(nullable: false),
-                    Title = table.Column<string>(maxLength: 191, nullable: true),
-                    Text = table.Column<string>(nullable: true)
+                    Title = table.Column<string>(maxLength: 191, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PostVersions", x => x.PostVersionId);
+                    table.ForeignKey(
+                        name: "FK_PostVersions_Posts_CurrentVersionId",
+                        column: x => x.CurrentVersionId,
+                        principalTable: "Posts",
+                        principalColumn: "PostId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PostVersions_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
                         principalColumn: "PostId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RawFiles",
+                columns: table => new
+                {
+                    FileName = table.Column<string>(maxLength: 191, nullable: false),
+                    Data = table.Column<byte[]>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RawFiles", x => x.FileName);
                     table.ForeignKey(
-                        name: "FK_PostVersions_Posts_PostVersionId",
+                        name: "FK_RawFiles_ExternalFiles_FileName",
+                        column: x => x.FileName,
+                        principalTable: "ExternalFiles",
+                        principalColumn: "FileName",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RawTexts",
+                columns: table => new
+                {
+                    PostVersionId = table.Column<int>(maxLength: 191, nullable: false),
+                    Text = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RawTexts", x => x.PostVersionId);
+                    table.ForeignKey(
+                        name: "FK_RawTexts_PostVersions_PostVersionId",
                         column: x => x.PostVersionId,
-                        principalTable: "Posts",
-                        principalColumn: "PostId",
+                        principalTable: "PostVersions",
+                        principalColumn: "PostVersionId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -311,6 +347,12 @@ namespace iNOBStudios.Migrations
                 column: "TagId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PostVersions_CurrentVersionId",
+                table: "PostVersions",
+                column: "CurrentVersionId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PostVersions_PostId",
                 table: "PostVersions",
                 column: "PostId");
@@ -334,19 +376,25 @@ namespace iNOBStudios.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ExternalFiles");
-
-            migrationBuilder.DropTable(
                 name: "PostTag");
 
             migrationBuilder.DropTable(
-                name: "PostVersions");
+                name: "RawFiles");
+
+            migrationBuilder.DropTable(
+                name: "RawTexts");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Tags");
+
+            migrationBuilder.DropTable(
+                name: "ExternalFiles");
+
+            migrationBuilder.DropTable(
+                name: "PostVersions");
 
             migrationBuilder.DropTable(
                 name: "Posts");

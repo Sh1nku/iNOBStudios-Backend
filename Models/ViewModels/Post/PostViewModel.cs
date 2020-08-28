@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 namespace iNOBStudios.Models.ViewModels.Post {
     public class PostViewModel {
         public int PostId { get; set; }
-
-        public int CurrentVersionId { get; set; }
+        public bool Published { get; set; }
         public virtual PostVersionViewModel CurrentVersion { get; set; }
         public virtual List<PostVersionViewModel> PostVersions { get; set; }
         public string AuthorId { get; set; }
