@@ -26,3 +26,7 @@
         return ["Unknown error"];
     }
 }
+
+function getDateFromJSON(date) {
+    return date.slice(0, 10);
+}

@@ -1,8 +1,5 @@
 Vue.component('create-post-modal', {
     computed: {
-        moveTaskModal() {
-            return this.$store.state.moveTaskModal;
-        },
         errors() {
             return this.$store.state.createPostErrors;
         }

@@ -15,9 +15,10 @@ namespace iNOBStudios.Models {
                 PostId = post.PostId,
                 ExternalFiles = post.ExternalFiles?.Select(x => ExternalFileViewModelFromExternalFile(x)).ToList(),
                 PostTags = post.PostTags?.Select(x => x.TagId).ToList(),
-                PostVersions = post.PostVersions?.Select(x => PostVersionViewModelFromPostVersion(x)).ToList(),
+                PostVersions = post.PostVersions?.Select(x => PostVersionViewModelFromPostVersion(x)).ToDictionary(x => x.PostVersionId.ToString(), x => x),
                 CurrentVersion = post.CurrentVersion != null ? PostVersionViewModelFromPostVersion(post.CurrentVersion) : null,
-                Published = post.Published
+                Published = post.Published,
+                AddedTime = post.AddedTime
             };
         }
 
@@ -36,6 +37,8 @@ namespace iNOBStudios.Models {
                 PostedDate = version.PostedDate,
                 PostVersionId = version.PostVersionId,
                 Title = version.Title,
+                CurrentVersionId = version.CurrentVersionId,
+                PreviewText = version.PreviewText,
                 RawText = version.RawText != null ? version.RawText.Text : null
             };
         }

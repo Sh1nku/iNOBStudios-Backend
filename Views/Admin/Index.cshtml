@@ -9,6 +9,7 @@
     <script src="~/js/helpers.js" asp-append-version="true"></script>
     <script src="~/js/Admin/Index/store.js" asp-append-version="true"></script>
     <script src="~/js/Admin/Index/createPostModal.js" asp-append-version="true"></script>
+    <script src="~/js/Admin/Index/editPostModal.js" asp-append-version="true"></script>
     <script src="~/js/Admin/Index/index.js" asp-append-version="true"></script>
 }
 
@@ -20,25 +21,29 @@
     <template v-if="posts">
         <div class="row">
             <div class="col-sm">
+                <h1>Posts</h1>
+                <hr />
+                <button class="btn btn-primary" @@click="toggleCreatePostVisible">Create Post</button>
                 <table class="table">
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Version</th>
+                            <th>Title</th>
+                            <th>Published</th>
+                            <th>Edit</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="post in posts">
-                            <th>{{post.date}}</th>
-                            <th>
-                                <ul v-if="'postVersions' in post">
-                                    <li v-for="version in post.postVersions">{{version.title}}</li>
-                                </ul>
-                            </th>
-                            <th>{{post.versions}}</th>
-                        </tr>
-                        <tr>
-                            <th colspan="2"><button class="btn btn-primary" style="float:right" @@click="toggleCreatePostVisible">Create Post</button></th>
+                            <td><label>{{getDateFromJSON(post.addedTime)}}</label></td>
+                            <th><label>{{post.currentVersion.title}}</label></th>
+                            <template v-if="post.published">
+                                <td><label>Published</label></td>
+                            </template>
+                            <template v-else>
+                                <td><label>Not Published</label></td>
+                            </template>
+                            <td><button class="btn btn-primary" @@click="toggleEditPostVisible(post.postId)">Edit</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -46,4 +51,5 @@
         </div>
     </template>
     <create-post-modal v-if="createPostVisible"></create-post-modal>
+    <edit-post-modal v-if="editPostVisible"></edit-post-modal>
 </div>

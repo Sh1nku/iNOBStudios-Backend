@@ -9,7 +9,10 @@ namespace iNOBStudios.Data.Repositories {
         public IEnumerable<Post> GetPosts(bool track = false, string[] info = null);
         public Post GetPostByPostId(int postId, bool track = false, string[] info = null);
         public IEnumerable<PostVersion> GetPostVersionsByPostId(int postId, bool track = false, string[] info = null);
+        public PostVersion GetPostVersionByPostVersionId(int postVersionId, bool track = false, string[] info = null);
 
         public Post CreatePost(Post post);
+        public Post UpdatePost(Post post);
+        public PostVersion CreatePostVersion(PostVersion postVersion);
     }
 }

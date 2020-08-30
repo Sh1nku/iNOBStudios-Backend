@@ -19,8 +19,8 @@ namespace iNOBStudios.Controllers {
 
         [Authorize]
         public IActionResult Index() {
-            var posts = postRepository.GetPosts(false, new string[] { "PostVersions" });
-            return View(posts.Select(x => Conversions.PostViewModelFromPost(x)));
+            var posts = postRepository.GetPosts(false, new string[] { "PostVersions", "CurrentVersion" });
+            return View(posts.Select(x => Conversions.PostViewModelFromPost(x)).ToDictionary(x=> x.PostId.ToString(), x => x));
         }
     }
 }

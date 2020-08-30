@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using iNOBStudios.Data;
 
 namespace iNOBStudios.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200829125019_Adding post added time")]
+    partial class Addingpostaddedtime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -298,7 +300,7 @@ namespace iNOBStudios.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("CurrentVersionId")
+                    b.Property<int>("CurrentVersionId")
                         .HasColumnType("int");
 
                     b.Property<int>("PostId")
@@ -306,10 +308,6 @@ namespace iNOBStudios.Migrations
 
                     b.Property<DateTime>("PostedDate")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<string>("PreviewText")
-                        .HasColumnType("varchar(511) CHARACTER SET utf8mb4")
-                        .HasMaxLength(511);
 
                     b.Property<string>("Title")
                         .HasColumnType("varchar(191) CHARACTER SET utf8mb4")
@@ -463,7 +461,9 @@ namespace iNOBStudios.Migrations
                 {
                     b.HasOne("iNOBStudios.Models.Entities.Post", "CurrentVersion")
                         .WithOne("CurrentVersion")
-                        .HasForeignKey("iNOBStudios.Models.Entities.PostVersion", "CurrentVersionId");
+                        .HasForeignKey("iNOBStudios.Models.Entities.PostVersion", "CurrentVersionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("iNOBStudios.Models.Entities.Post", "Post")
                         .WithMany("PostVersions")

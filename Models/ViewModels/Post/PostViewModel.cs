@@ -10,8 +10,9 @@ namespace iNOBStudios.Models.ViewModels.Post {
     public class PostViewModel {
         public int PostId { get; set; }
         public bool Published { get; set; }
+        public DateTime AddedTime { get; set; }
         public virtual PostVersionViewModel CurrentVersion { get; set; }
-        public virtual List<PostVersionViewModel> PostVersions { get; set; }
+        public virtual Dictionary<string, PostVersionViewModel> PostVersions { get; set; }
         public string AuthorId { get; set; }
         public List<string> PostTags { get; set; }
         public List<ExternalFileViewModel> ExternalFiles { get; set; }

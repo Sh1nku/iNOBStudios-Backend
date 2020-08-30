@@ -14,11 +14,13 @@ namespace iNOBStudios.Models.Entities {
         public int PostId { get; set; }
         public virtual Post Post { get; set; }
         [ForeignKey("CurrentVersion")]
-        public int CurrentVersionId { get; set; }
+        public int? CurrentVersionId { get; set; }
         public virtual Post CurrentVersion { get; set; }
         public DateTime PostedDate { get; set; }
         [MaxLength(191)]
         public string Title { get; set; }
+        [MaxLength(511)]
+        public string PreviewText { get; set; }
         public virtual RawText RawText { get; set; }
 
     }

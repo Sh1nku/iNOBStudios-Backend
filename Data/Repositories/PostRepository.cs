@@ -18,6 +18,12 @@ namespace iNOBStudios.Data.Repositories {
             return post;
         }
 
+        public PostVersion CreatePostVersion(PostVersion postVersion) {
+            db.PostVersions.Add(postVersion);
+            db.SaveChanges();
+            return postVersion;
+        }
+
         public Post GetPostByPostId(int postId, bool track = false, string[] info = null) {
             var post = db.Posts.AsQueryable();
             foreach (var include in info ?? Enumerable.Empty<string>()) {
@@ -49,6 +55,23 @@ namespace iNOBStudios.Data.Repositories {
                 return posts.Where(x => x.PostId == postId);
             }
             return posts.Where(x => x.PostId == postId).AsNoTracking();
+        }
+
+        public PostVersion GetPostVersionByPostVersionId(int postVersionId, bool track = false, string[] info = null) {
+            var postVersion = db.PostVersions.AsQueryable();
+            foreach (var include in info ?? Enumerable.Empty<string>()) {
+                postVersion = postVersion.Include(include);
+            }
+            if (track) {
+                return postVersion.Where(x => x.PostVersionId == postVersionId).SingleOrDefault();
+            }
+            return postVersion.Where(x => x.PostVersionId == postVersionId).AsNoTracking().SingleOrDefault();
+        }
+
+        public Post UpdatePost(Post post) {
+            db.Posts.Update(post);
+            db.SaveChanges();
+            return post;
         }
     }
 }

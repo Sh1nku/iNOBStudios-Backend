@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using iNOBStudios.Data;
 
 namespace iNOBStudios.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200830190344_Adding preview text")]
+    partial class Addingpreviewtext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -298,7 +300,7 @@ namespace iNOBStudios.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("CurrentVersionId")
+                    b.Property<int>("CurrentVersionId")
                         .HasColumnType("int");
 
                     b.Property<int>("PostId")
@@ -463,7 +465,9 @@ namespace iNOBStudios.Migrations
                 {
                     b.HasOne("iNOBStudios.Models.Entities.Post", "CurrentVersion")
                         .WithOne("CurrentVersion")
-                        .HasForeignKey("iNOBStudios.Models.Entities.PostVersion", "CurrentVersionId");
+                        .HasForeignKey("iNOBStudios.Models.Entities.PostVersion", "CurrentVersionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("iNOBStudios.Models.Entities.Post", "Post")
                         .WithMany("PostVersions")

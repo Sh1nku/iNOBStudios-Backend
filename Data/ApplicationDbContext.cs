@@ -40,6 +40,7 @@ namespace iNOBStudios.Data {
             builder.Entity<PostTag>(entity => entity.Property(m => m.TagId).HasMaxLength(64));
             builder.Entity<Tag>(entity => entity.Property(m => m.TagId).HasMaxLength(64));
             builder.Entity<PostVersion>(entity => entity.Property(m => m.Title).HasMaxLength(191));
+            builder.Entity<PostVersion>(entity => entity.Property(m => m.PreviewText).HasMaxLength(511));
 
             builder.Entity<ApplicationUser>(entity => entity.Property(m => m.Id).HasMaxLength(128));
             builder.Entity<ApplicationUser>(entity => entity.Property(m => m.UserName).HasMaxLength(128));

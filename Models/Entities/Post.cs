@@ -11,6 +11,7 @@ namespace iNOBStudios.Models.Entities
         [Key]
         public int PostId { get; set; }
         public bool Published { get; set; }
+        public DateTime AddedTime { get; set; }
         [InverseProperty("CurrentVersion")]
         public virtual PostVersion CurrentVersion { get; set; }
         public virtual IEnumerable<PostVersion> PostVersions { get; set; }
