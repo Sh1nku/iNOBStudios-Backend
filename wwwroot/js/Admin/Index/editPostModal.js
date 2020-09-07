@@ -28,6 +28,9 @@ Vue.component('edit-post-modal', {
             let payload = { postId: this.post.postId, currentVersion: versionId };
             this.$store.dispatch('setCurrentVersion', payload);
         },
+        editVersion: function (versionId) {
+            window.location.href = "Admin/Edit/" + versionId
+        }
     },
     template:
         `
@@ -52,7 +55,7 @@ Vue.component('edit-post-modal', {
                 <td>{{version.title}}</td>
                 <td v-if="post.currentVersion.postVersionId == version.postVersionId">True</td>
                 <td v-else><button @click="makeCurrent(version.postVersionId)">Make Current</button></td>
-                <td><button>Edit</button></td>
+                <td><button @click="editVersion(version.postVersionId)">Edit</button></td>
             </tr>
         </table>
         <div>

@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewData["Title"] = "Edit Post";
+}
+
+@section Head {
+    <link rel="stylesheet" type="text/css" href="~/css/modalStyle.css">
+
+    <script src="~/js/helpers.js" asp-append-version="true"></script>
+    <script src="~/js/Admin/Edit/store.js" asp-append-version="true"></script>
+    <script src="~/js/Admin/Edit/app.js" asp-append-version="true"></script>
+}
+
+<script type="text/javascript">
+        var model = JSON.parse('@Json.Serialize(@Model)');
+</script>
+
+<div id="app">
+    <template v-if="postVersion">
+        <div class="row">
+            <div class="col-sm">
+                <h1>Edit Post</h1>
+                <hr />
+            </div>
+        </div>
+    </template>
+</div>

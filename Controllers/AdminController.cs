@@ -22,5 +22,16 @@ namespace iNOBStudios.Controllers {
             var posts = postRepository.GetPosts(false, new string[] { "PostVersions", "CurrentVersion" });
             return View(posts.Select(x => Conversions.PostViewModelFromPost(x)).ToDictionary(x=> x.PostId.ToString(), x => x));
         }
+
+        [Authorize]
+        public IActionResult Edit([FromRoute]int id) {
+            var postVersion = postRepository.GetPostVersionByPostVersionId(id, false, new string[] {"RawText"});
+            if(postVersion == null) {
+                return NotFound();
+            }
+            var post = postRepository.GetPostByPostId(postVersion.PostId);
+            return View(new Dictionary<string, object>(){ {"post", Conversions.PostViewModelFromPost(post) }, {"postVersion", Conversions.PostVersionViewModelFromPostVersion(postVersion) } });
+
+        }
     }
 }
