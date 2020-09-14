@@ -4,7 +4,8 @@
 }
 
 @section Head {
-    <link rel="stylesheet" type="text/css" href="~/css/modalStyle.css">
+    <link rel="stylesheet" type="text/css" href="~/css/modalStyle.css" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/css/Admin/Edit/edit.css" asp-append-version="true" />
 
     <script src="~/js/helpers.js" asp-append-version="true"></script>
     <script src="~/js/Admin/Edit/store.js" asp-append-version="true"></script>
@@ -15,13 +16,55 @@
         var model = JSON.parse('@Json.Serialize(@Model)');
 </script>
 
-<div id="app">
-    <template v-if="postVersion">
-        <div class="row">
-            <div class="col-sm">
-                <h1>Edit Post</h1>
-                <hr />
-            </div>
+<template v-if="postVersion">
+    <div class="row">
+        <div class="col-sm">
+            <h1>Edit Post</h1>
+            <hr />
+            <table>
+                <tr>
+                    <td><h5 class="d-inline">Title: </h5></td>
+                    <td><input type="text" v-model="postVersion.title" /></td>
+                </tr>
+                <tr>
+                    <td><button class="btn btn-primary">Update Post</button></td>
+                </tr>
+            </table>
+            <hr />
+            <hr />
+            <h4>Attachments</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Filename</th>
+                        <th>Extension</th>
+                        <th>Alt Text</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="file in post.externalFiles">
+                        <td>{{file.filename}}</td>
+                        <td>{{file.MIMEType}}</td>
+                        <td><textarea></textarea></td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr />
+            <input type="file" />
+            <textarea></textarea>
+            <button class="btn btn-primary">Upload</button>
         </div>
-    </template>
-</div>
+    </div>
+</template>
+
+@section Secondary {
+    <div class="row" style="background-color:blue">
+        <div class="col-sm">
+            <h1>Test</h1>
+        </div>
+        <div class="col-sm" style="background-color: red">
+            <h1>Test</h1>
+        </div>
+    </div>
+}

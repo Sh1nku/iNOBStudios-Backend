@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     new Vue({
-        el: '#app',
+        el: '#main-container',
         store: store,
         computed: {
             post() {

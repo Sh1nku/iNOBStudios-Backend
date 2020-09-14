@@ -29,7 +29,7 @@ namespace iNOBStudios.Controllers {
             if(postVersion == null) {
                 return NotFound();
             }
-            var post = postRepository.GetPostByPostId(postVersion.PostId);
+            var post = postRepository.GetPostByPostId(postVersion.PostId, false, new string[] {"ExternalFiles"});
             return View(new Dictionary<string, object>(){ {"post", Conversions.PostViewModelFromPost(post) }, {"postVersion", Conversions.PostVersionViewModelFromPostVersion(postVersion) } });
 
         }

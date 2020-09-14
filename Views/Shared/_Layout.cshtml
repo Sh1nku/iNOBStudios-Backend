@@ -77,10 +77,13 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <div id="main-container">
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+        @RenderSection("Secondary", required: false)
     </div>
 
     <footer class="border-top footer text-muted">
