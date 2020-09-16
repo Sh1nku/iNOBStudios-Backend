@@ -1,1 +1,13 @@
-﻿
+﻿.half-box {
+    width:960px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.nav-button {
+    margin: 0px 5px 0px 5px;
+}
+
+.nav-button-active {
+    color: forestgreen !important;
+}

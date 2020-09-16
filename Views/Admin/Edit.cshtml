@@ -31,7 +31,6 @@
                 </tr>
             </table>
             <hr />
-            <hr />
             <h4>Attachments</h4>
             <table class="table">
                 <thead>
@@ -51,20 +50,60 @@
                 </tbody>
             </table>
             <hr />
-            <input type="file" />
-            <textarea></textarea>
-            <button class="btn btn-primary">Upload</button>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>File</th>
+                        <th>Alt text</th>
+                        <th>Upload</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="file" /></td>
+                        <td><textarea></textarea></td>
+                        <td><button class="btn btn-primary">Upload</button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+<pre v-highlightjs><code class="cpp">
+#include &lt;iostream&gt;
+
+int main() {
+    auto a = 0;
+    auto b = 3;
+    std::cout << a << std::endl;
+}
+</code></pre>
         </div>
     </div>
+
+    <template v-if="tab == 'edit'">
+        <a class="nav-button nav-button-active" href="#" @@click="setTab('edit')">Edit</a>|
+        <a class="nav-button" href="#" @@click="setTab('display')">Display</a>
+        <hr />
+        <textarea v-model="postVersion.rawText" style="width:100%"></textarea>
+    </template>
+    <template v-else>
+        <a class="nav-button" href="#" @@click="setTab('edit')">Edit</a>|
+        <a id="display" class="nav-button nav-button-active" href="#" @@click="setTab('display')">Display</a>
+        <hr />
+        <div v-html="parsedText">
+
+        </div>
+    </template>
+
 </template>
 
 @section Secondary {
-    <div class="row" style="background-color:blue">
-        <div class="col-sm">
-            <h1>Test</h1>
+    <!--<div class="row" v-if="postVersion">
+            <div class="col-sm half-box">
+                <textarea v-model="postVersion.rawText" style="width:100%"></textarea>
+            </div>
+            <div class="col-sm half-box" v-html="parsedText">
+
+            </div>
         </div>
-        <div class="col-sm" style="background-color: red">
-            <h1>Test</h1>
-        </div>
-    </div>
-}
+    -->
+    }
