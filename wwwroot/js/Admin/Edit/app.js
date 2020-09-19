@@ -16,23 +16,38 @@
                 return this.$store.state.tab;
             }
         },
+        data: {
+            scaleWidth: 1
+        },
         methods: {
             setTab: function (value) {
                 this.$store.commit('setTab', value);
+            },
+            updateScale: function () {
+                this.$nextTick(function () {
+                    let container = document.getElementById('parsed-container');
+                    if (container) {
+                        this.scaleWidth = container.clientWidth / 960;
+                    }
+                });
             },
         },
         mounted: function () {
             this.$nextTick(function () {
                 this.$store.dispatch('init');
-                document.querySelectorAll('code').forEach((block) => {
+                window.addEventListener("resize", this.updateScale);
+                document.querySelectorAll('pre code').forEach((block) => {
                     hljs.highlightBlock(block)
                 })
+                this.updateScale();
             });
         },
         updated: function () {
             this.$nextTick(function () {
                 document.querySelectorAll('pre code').forEach((block) => {
-                    hljs.highlightBlock(block);
+                    if (block.childElementCount == 0) {
+                        hljs.highlightBlock(block)
+                    }
                 });
             })
         }
