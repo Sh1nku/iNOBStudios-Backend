@@ -1,1 +1,0 @@
-﻿Vue.directive("highlightjs", { deep: !0, bind: function (e, t) { e.querySelectorAll("code").forEach(e => { t.value && (e.textContent = t.value), hljs.highlightBlock(e) }) }, componentUpdated: function (e, t) { e.querySelectorAll("code").forEach(e => { t.value && (e.textContent = t.value, hljs.highlightBlock(e)) }) } });

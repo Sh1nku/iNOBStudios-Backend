@@ -28,6 +28,13 @@
                     hljs.highlightBlock(block)
                 })
             });
+        },
+        updated: function () {
+            this.$nextTick(function () {
+                document.querySelectorAll('pre code').forEach((block) => {
+                    hljs.highlightBlock(block);
+                });
+            })
         }
     });
 });
