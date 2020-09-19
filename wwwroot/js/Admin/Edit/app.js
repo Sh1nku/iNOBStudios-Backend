@@ -14,6 +14,9 @@
             },
             tab() {
                 return this.$store.state.tab;
+            },
+            saved() {
+                return this.$store.state.saving.saved;
             }
         },
         data: {
@@ -31,6 +34,9 @@
                     }
                 });
             },
+            resetSave: function () {
+                this.$store.dispatch('resetSave');
+            }
         },
         mounted: function () {
             this.$nextTick(function () {
@@ -49,7 +55,7 @@
                         hljs.highlightBlock(block)
                     }
                 });
-            })
+            });
         }
     });
 });

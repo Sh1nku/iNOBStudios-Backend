@@ -120,5 +120,29 @@ namespace iNOBStudios.Controllers
                 return BadRequest();
             }
         }
+
+        [Authorize]
+        [HttpPut]
+        [Route("PostVersion")]
+        public IActionResult UpdatePostVersion([FromBody] UpdatePostVersionViewModel model) {
+            var user = userRepository.GetApplicationUserByUsername(User.Identity.Name, true);
+            if (user == null) {
+                return Unauthorized();
+            }
+            var postVersion = postRepository.GetPostVersionByPostVersionId(model.PostVersionId, true, new string[] { "RawText" });
+            if(postVersion == null) {
+                return NotFound();
+            }
+            if(model.RawText != null) {
+                postVersion.RawText.Text = model.RawText;
+            }
+            try {
+                postVersion = postRepository.UpdatePostVersion(postVersion);
+                return Ok(Conversions.PostVersionViewModelFromPostVersion(postVersion));
+            }
+            catch (Exception) {
+                return BadRequest();
+            }
+        }
     }
 }

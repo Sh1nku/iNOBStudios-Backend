@@ -14,5 +14,6 @@ namespace iNOBStudios.Data.Repositories {
         public Post CreatePost(Post post);
         public Post UpdatePost(Post post);
         public PostVersion CreatePostVersion(PostVersion postVersion);
+        public PostVersion UpdatePostVersion(PostVersion postVersion);
     }
 }

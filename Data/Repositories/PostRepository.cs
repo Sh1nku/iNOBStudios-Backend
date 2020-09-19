@@ -73,5 +73,11 @@ namespace iNOBStudios.Data.Repositories {
             db.SaveChanges();
             return post;
         }
+
+        public PostVersion UpdatePostVersion(PostVersion postVersion) {
+            db.PostVersions.Update(postVersion);
+            db.SaveChanges();
+            return postVersion;
+        }
     }
 }
