@@ -8,12 +8,13 @@
     <link rel="stylesheet" type="text/css" href="~/css/Admin/Edit/edit.css" asp-append-version="true" />
 
     <script src="~/js/helpers.js" asp-append-version="true"></script>
+    <script src="~/js/Tools/postParser.js" asp-append-version="true"></script>
     <script src="~/js/Admin/Edit/store.js" asp-append-version="true"></script>
     <script src="~/js/Admin/Edit/app.js" asp-append-version="true"></script>
 }
 
 <script type="text/javascript">
-        var model = JSON.parse('@Json.Serialize(@Model)');
+        var model = @Json.Serialize(@Model);
 </script>
 
 <template v-if="postVersion">
