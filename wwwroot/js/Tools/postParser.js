@@ -6,7 +6,7 @@
     while (i != text.length) {
         if (index != variables.length) {
             if (variables[index].index == i) {
-                resultText.push(variables[index][0]);
+                resultText.push(parseJsonText(JSON.parse(variables[index][1])));
                 i += variables[index][0].length;
                 index++;
             }
@@ -23,4 +23,15 @@
 
     console.log(resultText)
     return resultText.join('');
+}
+
+function parseJsonText(variable) {
+    if (variable['type'] && typeof window[variable['type'] + 'Parser'] === "function") {
+        return window[variable['type'] + 'Parser'](variable);
+    }
+    return '';
+}
+
+function imgParser(variable) {
+    return "Image";
 }
