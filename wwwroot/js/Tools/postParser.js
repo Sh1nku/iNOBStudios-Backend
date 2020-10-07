@@ -11,15 +11,16 @@
                 index++;
             }
             else {
-                resultText.push(text.substr(i, variables[index].index).replace('\n','<br>'));
+                resultText.push(text.substr(i, variables[index].index-i).replaceAll('\n','<br>'));
                 i = variables[index].index;
             }
         }
         else {
-            resultText.push(text.substr(i).replace('\n', '<br>'));
+            resultText.push(text.substr(i).replaceAll('\n', '<br>'));
             i = text.length;
         }
     }
 
+    console.log(resultText)
     return resultText.join('');
 }
