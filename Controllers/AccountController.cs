@@ -53,7 +53,7 @@ namespace iNOBStudios.Controllers
 
         }
 
-
+        /*
         //Registration is disabled
         [HttpGet]
         public IActionResult Register(string returnUrl = null)
@@ -77,7 +77,7 @@ namespace iNOBStudios.Controllers
 
             }
             return View(model);
-        }
+        }*/
 
         public IActionResult Logout()
         {

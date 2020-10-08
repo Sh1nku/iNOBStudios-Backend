@@ -33,5 +33,5 @@ function parseJsonText(variable) {
 }
 
 function imgParser(variable) {
-    return "Image";
+    return `<img src="${variable['src']}" alt="${variable['alt']}" "></img>`;
 }
