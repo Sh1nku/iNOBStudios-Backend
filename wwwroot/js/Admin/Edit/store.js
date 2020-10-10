@@ -19,6 +19,23 @@ var store = new Vuex.Store({
         },
         setTimeout: (state, value) => {
             state.saving.timeout = value;
+        },
+        addExternalFile: (state, value) => {
+            state.post.externalFiles.push(value);
+        },
+        removeExternalFile: (state, value) => {
+            $.ajax({
+                url: '/api/ExternalFile/ExternalFile/' + value,
+                type: 'DELETE',
+                success: function (result) {
+                    state.post.externalFiles = state.post.externalFiles.filter(function (obj) {
+                        return obj.fileName != value;
+                    });
+                },
+                error: function () {
+                    alert('Could not remove file');
+                }
+            });
         }
     },
     actions: {

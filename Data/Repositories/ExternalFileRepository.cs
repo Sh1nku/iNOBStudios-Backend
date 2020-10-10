@@ -12,6 +12,12 @@ namespace iNOBStudios.Data.Repositories {
             this.db = db;
         }
 
+        public ExternalFile CreateExternalFile(ExternalFile file) {
+            db.ExternalFiles.Add(file);
+            db.SaveChanges();
+            return file;
+        }
+
         public ExternalFile GetExternalFileByFileName(string fileName, bool track = false, string[] info = null) {
             var file = db.ExternalFiles.AsQueryable();
             foreach (var include in info ?? Enumerable.Empty<string>()) {
@@ -32,6 +38,11 @@ namespace iNOBStudios.Data.Repositories {
                 return files.Where(x => x.FileName == fileName);
             }
             return files.Where(x => x.FileName == fileName).AsNoTracking();
+        }
+
+        public void RemoveFile(ExternalFile file) {
+            db.ExternalFiles.Remove(file);
+            db.SaveChanges();
         }
     }
 }

@@ -36,6 +36,28 @@
             },
             resetSave: function () {
                 this.$store.dispatch('resetSave');
+            },
+            uploadFile: function () {
+                let vue = this;
+                let formData = new FormData();
+                formData.append('rawFile', document.getElementById('file').files[0]);
+                formData.append('postId', this.post.postId);
+                $.ajax({
+                    url: '/api/ExternalFile/ExternalFile',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (result) {
+                        vue.$store.commit('addExternalFile', result);
+                    },
+                    error: function () {
+                        alert('Could not upload file');
+                    }
+                });
+            },
+            removeFile: function (filename) {
+                this.$store.commit('removeExternalFile',filename);
             }
         },
         mounted: function () {
