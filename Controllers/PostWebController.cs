@@ -20,11 +20,13 @@ namespace iNOBStudios.Controllers
     {
         private IUserRepository userRepository;
         private IPostRepository postRepository;
+        private ITagRepository tagRepository;
 
 
-        public PostWebController(IUserRepository userRepository, IPostRepository postRepository) {
+        public PostWebController(IUserRepository userRepository, IPostRepository postRepository, ITagRepository tagRepository) {
             this.userRepository = userRepository;
             this.postRepository = postRepository;
+            this.tagRepository = tagRepository;
         }
 
         [Authorize]
@@ -83,6 +85,18 @@ namespace iNOBStudios.Controllers
                 }
                 if (model.Published != null) {
                     post.Published = (bool)model.Published;
+                }
+                if (model.PostTags != null) {
+                    var newTags = new List<PostTag>();
+                    var allTags = tagRepository.GetTags().ToDictionary(x => x.TagId, x => x);
+                    foreach(var tag in model.PostTags) {
+                        if(!allTags.ContainsKey(tag)) {
+                            return BadRequest();
+                        }
+                        newTags.Add(new PostTag() { PostId = post.PostId, TagId = tag });
+                    }
+                    post.PostTags = newTags;
+
                 }
                 if (errors) {
                     return BadRequest(ModelStateHelper.GetModelStateErrors(ModelState));

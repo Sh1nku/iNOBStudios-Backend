@@ -20,8 +20,6 @@
             i = text.length;
         }
     }
-
-    console.log(resultText)
     return resultText.join('');
 }
 

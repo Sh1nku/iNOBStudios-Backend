@@ -17,6 +17,15 @@
             },
             saved() {
                 return this.$store.state.saving.saved;
+            },
+            newTag() {
+                return this.$store.state.newTag;
+            },
+            allTags() {
+                return this.$store.state.allTags;
+            },
+            selectedTag() {
+                return this.$store.state.selectedTag;
             }
         },
         data: {
@@ -30,7 +39,7 @@
                 this.$nextTick(function () {
                     let container = document.getElementById('parsed-container');
                     if (container) {
-                        this.scaleWidth = container.clientWidth / 960;
+                        this.scaleWidth = (container.clientWidth / 960);
                     }
                 });
             },
@@ -57,13 +66,23 @@
                 });
             },
             removeFile: function (filename) {
-                this.$store.commit('removeExternalFile',filename);
+                this.$store.dispatch('deleteExternalFile', filename);
+            },
+            deletePostTag: function (filename) {
+                this.$store.dispatch('deletePostTag', filename);
+            },
+            createTag: function () {
+                this.$store.dispatch('createTag');
+            },
+            addPostTag: function () {
+                this.$store.dispatch('addPostTag');
             }
         },
         mounted: function () {
             this.$nextTick(function () {
                 this.$store.dispatch('init');
                 window.addEventListener("resize", this.updateScale);
+                window.addEventListener("mouseup", this.updateScale);
                 document.querySelectorAll('pre code').forEach((block) => {
                     hljs.highlightBlock(block)
                 })

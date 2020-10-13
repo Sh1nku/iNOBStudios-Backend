@@ -75,6 +75,7 @@ namespace iNOBStudios
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IPostRepository, PostRepository>();
             services.AddTransient<IExternalFileRepository, ExternalFileRepository>();
+            services.AddTransient<ITagRepository, TagRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

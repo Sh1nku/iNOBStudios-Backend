@@ -11,10 +11,12 @@ namespace iNOBStudios.Controllers {
     public class AdminController : Controller {
         private IUserRepository userRepository;
         private IPostRepository postRepository;
+        private ITagRepository tagRepository;
 
-        public AdminController(IUserRepository userRepository, IPostRepository postRepository) {
+        public AdminController(IUserRepository userRepository, IPostRepository postRepository, ITagRepository tagRepository) {
             this.userRepository = userRepository;
             this.postRepository = postRepository;
+            this.tagRepository = tagRepository;
         }
 
         [Authorize]
@@ -29,8 +31,10 @@ namespace iNOBStudios.Controllers {
             if(postVersion == null) {
                 return NotFound();
             }
-            var post = postRepository.GetPostByPostId(postVersion.PostId, false, new string[] {"ExternalFiles"});
-            return View(new Dictionary<string, object>(){ {"post", Conversions.PostViewModelFromPost(post) }, {"postVersion", Conversions.PostVersionViewModelFromPostVersion(postVersion) } });
+            var post = postRepository.GetPostByPostId(postVersion.PostId, false, new string[] {"ExternalFiles", "PostTags"});
+            var tags = tagRepository.GetTags();
+            return View(new Dictionary<string, object>(){ {"post", Conversions.PostViewModelFromPost(post) }, {"postVersion", Conversions.PostVersionViewModelFromPostVersion(postVersion) },
+                { "tags", tags.Select(x => x.TagId)} });
 
         }
     }

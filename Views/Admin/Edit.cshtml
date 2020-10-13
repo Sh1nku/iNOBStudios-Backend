@@ -32,50 +32,56 @@
                 </tr>
             </table>
             <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
             <h4>Attachments</h4>
             <table class="table">
                 <thead>
                     <tr>
                         <th>Filename</th>
-                        <th>Extension</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="file in post.externalFiles">
                         <td>{{file.fileName}}</td>
-                        <td>{{file.mimeType}}</td>
                         <td><button @@click="removeFile(file.fileName)">Delete</button></td>
                     </tr>
                 </tbody>
             </table>
             <hr />
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>File</th>
-                        <th>Upload</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><input type="file" id="file"/></td>
-                        <td><button class="btn btn-primary" @@click="uploadFile">Upload</button></td>
-                    </tr>
-                </tbody>
-            </table>
-
-<pre v-highlightjs><code class="cpp">
-#include &lt;iostream&gt;
-
-int main() {
-    auto a = 0;
-    auto b = 3;
-    std::cout << a << std::endl;
-}
-</code></pre>
+            <input type="file" id="file" />
+            <button class="btn btn-primary" @@click="uploadFile">Upload</button>
+        </div>
+        <div class="col-sm">
+            <h4>Tags</h4>
+            <hr />
+            <ul>
+                <li v-for="tag in post.postTags">{{tag}} <button @@click="deletePostTag(tag)">Delete</button></li>
+            </ul>
+            <hr />
+            <select v-model="selectedTag.name">
+                <option v-for="tag in allTags" :value="tag">{{tag}}</option>
+            </select>
+            <button @@click="addPostTag">Add tag to post</button>
+            <br />
+            <input type="text" v-model="newTag.name" />
+            <button @@click="createTag">Create Tag</button>
         </div>
     </div>
+
+    <!--<pre v-highlightjs><code class="cpp">
+    #include &lt;iostream&gt;
+
+    int main() {
+        auto a = 0;
+        auto b = 3;
+        std::cout << a << std::endl;
+    }
+    </code></pre>
+    -->
     <hr />
 
 </template>
