@@ -58,9 +58,11 @@
         <div class="col-sm">
             <h4>Tags</h4>
             <hr />
-            <ul>
+            <ul v-if="post.postTags && post.postTags.length > 0">
                 <li v-for="tag in post.postTags">{{tag}} <button @@click="deletePostTag(tag)">Delete</button></li>
             </ul>
+            <p v-else>No tags</p>
+
             <hr />
             <select v-model="selectedTag.name">
                 <option v-for="tag in allTags" :value="tag">{{tag}}</option>
