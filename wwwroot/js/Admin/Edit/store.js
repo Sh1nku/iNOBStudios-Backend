@@ -13,6 +13,12 @@ var store = new Vuex.Store({
         setModel: (state, value) => {
             state.post = value.post;
             state.postVersion = value.postVersion;
+            if (state.postVersion.rawText.length > 0) {
+                state.postVersion.rawText = state.postVersion.rawText.substr(state.postVersion.previewText.length + 1);
+            }
+            else {
+                state.postVersion.rawText = state.postVersion.rawText.substr(state.postVersion.previewText.length);
+            }
             state.allTags = value.tags;
         },
         setTab: (state, value) => {
@@ -64,7 +70,8 @@ var store = new Vuex.Store({
             context.commit('setTimeout', null);
             let payload = {
                 postVersionId: context.state.postVersion.postVersionId,
-                rawText: context.state.postVersion.rawText,
+                rawText: context.state.postVersion.previewText+'\n'+context.state.postVersion.rawText,
+                previewText: context.state.postVersion.previewText
             };
             $.ajax({
                 type: "put",
@@ -97,7 +104,6 @@ var store = new Vuex.Store({
             let tags = context.state.post.postTags.filter(function (tag) {
                 return tag != value;
             });
-            console.log(tags);
             let data = { 'postTags': tags, 'postId': context.state.post.postId };
             $.ajax({
                 url: '/api/Post/Post',

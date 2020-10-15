@@ -6,7 +6,7 @@
     while (i != text.length) {
         if (index != variables.length) {
             if (variables[index].index == i) {
-                resultText.push(parseJsonText(JSON.parse(variables[index][1])));
+                resultText.push(parseJsonText(variables[index][0],variables[index][1]));
                 i += variables[index][0].length;
                 index++;
             }
@@ -23,7 +23,18 @@
     return resultText.join('');
 }
 
-function parseJsonText(variable) {
+function parseJsonText(totalText,variable) {
+    try {
+        variable = JSON.parse(variable);
+    }
+    catch {
+        variable = [...totalText.matchAll(/\@\[(.{0,})\=(.{0,})\]\@/g)]
+        if (typeof variable != 'undefined' && typeof window[variable[0][1] + 'Parser'] === "function"){
+            window[variable[0][1] + 'Parser'](variable[0][2]);
+        }
+        return totalText;
+        
+    }
     if (variable['type'] && typeof window[variable['type'] + 'Parser'] === "function") {
         return window[variable['type'] + 'Parser'](variable);
     }
@@ -32,4 +43,8 @@ function parseJsonText(variable) {
 
 function imgParser(variable) {
     return `<img src="${variable['src']}" alt="${variable['alt']}" "></img>`;
+}
+
+function h1Parser(variable) {
+    return `<h1 style="margin-left:auto;margin-right:auto;">${variable}</h1>`
 }

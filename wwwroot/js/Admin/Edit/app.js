@@ -10,7 +10,7 @@
                 return this.$store.state.postVersion;
             },
             parsedText() {
-                return parsePost(this.$store.state.postVersion.rawText);
+                return this.$store.state.postVersion.previewText+'\n'+this.$store.state.postVersion.rawText;
             },
             tab() {
                 return this.$store.state.tab;

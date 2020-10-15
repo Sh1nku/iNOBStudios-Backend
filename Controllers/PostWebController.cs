@@ -149,6 +149,7 @@ namespace iNOBStudios.Controllers
             }
             if(model.RawText != null) {
                 postVersion.RawText.Text = model.RawText;
+                postVersion.PreviewText = model.PreviewText;
             }
             try {
                 postVersion = postRepository.UpdatePostVersion(postVersion);
