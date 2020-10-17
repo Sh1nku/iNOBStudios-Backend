@@ -91,7 +91,7 @@
 
 @section Secondary {
     <div class="row" style="margin-left:0px; margin-right:0px;" v-if="postVersion">
-        <div class="col-sm half-box">
+        <div class="col-sm half-box" style="background-color: #F0F0F0; border-style: solid">
             <textarea v-model="postVersion.previewText"
                       style="width:100%; min-height:200px;"
                       v-bind:style="{ zoom: scaleWidth, width: '100%' }"
@@ -105,7 +105,7 @@
             <label v-if="saved">Saved</label>
             <label v-else>Not Saved</label>
         </div>
-        <div id="parsed-container" class="col-sm half-box post" style="background-color: #F0F0F0;">
+        <div id="parsed-container" class="col-sm half-box post" style="background-color: #F0F0F0; border-style: solid">
             <div v-html="parsedText" style="word-wrap: break-word;" v-bind:style="{ zoom: scaleWidth, width: '100%'}"></div>
         </div>
     </div>
