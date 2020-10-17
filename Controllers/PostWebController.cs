@@ -50,7 +50,8 @@ namespace iNOBStudios.Controllers
                 Published = false,
                 CurrentVersion = postVersion,
                 PostVersions = new List<PostVersion>() { postVersion },
-                AddedTime = DateTime.Now
+                AddedTime = DateTime.Now,
+                FirstPublished = null
             };
             try {
                 post = postRepository.CreatePost(post);
@@ -85,6 +86,9 @@ namespace iNOBStudios.Controllers
                 }
                 if (model.Published != null) {
                     post.Published = (bool)model.Published;
+                    if(post.FirstPublished == null) {
+                        post.FirstPublished = DateTime.Now;
+                    }
                 }
                 if (model.PostTags != null) {
                     var newTags = new List<PostTag>();
@@ -152,6 +156,7 @@ namespace iNOBStudios.Controllers
                 postVersion.PreviewText = model.PreviewText;
             }
             try {
+                postVersion.PostedDate = DateTime.Now;
                 postVersion = postRepository.UpdatePostVersion(postVersion);
                 return Ok(Conversions.PostVersionViewModelFromPostVersion(postVersion));
             }

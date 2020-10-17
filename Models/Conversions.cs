@@ -18,7 +18,8 @@ namespace iNOBStudios.Models {
                 PostVersions = post.PostVersions?.Select(x => PostVersionViewModelFromPostVersion(x)).ToDictionary(x => x.PostVersionId.ToString(), x => x),
                 CurrentVersion = post.CurrentVersion != null ? PostVersionViewModelFromPostVersion(post.CurrentVersion) : null,
                 Published = post.Published,
-                AddedTime = post.AddedTime
+                AddedTime = post.AddedTime,
+                FirstPublished = post.FirstPublished
             };
         }
 

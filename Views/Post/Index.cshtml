@@ -1,0 +1,24 @@
+﻿@model iNOBStudios.Models.ViewModels.Post.PostViewModel
+
+@{
+    ViewData["Title"] = Model.CurrentVersion.Title;
+}
+
+@section Head {
+    <link rel="stylesheet" type="text/css" href="~/css/Admin/Edit/edit.css" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/css/postStyle.css" asp-append-version="true" />
+
+    <script src="~/js/helpers.js" asp-append-version="true"></script>
+    <script src="~/js/Tools/postParser.js" asp-append-version="true"></script>
+}
+
+<div class="row">
+    <div class="col-sm post">
+        <h1>@Model.CurrentVersion.Title</h1>
+        <div style="margin-left: 0px; margin-right: 0px">
+            <label>Posted on @Model.FirstPublished.ToString().Substring(0, 10)</label> |
+            <label>Last updated @Model.FirstPublished.ToString().Substring(0, 10)</label>
+        </div>
+        @Html.Raw(@Model.CurrentVersion.RawText)
+    </div>
+</div>

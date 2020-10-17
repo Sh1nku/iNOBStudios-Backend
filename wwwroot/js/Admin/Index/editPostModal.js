@@ -30,6 +30,10 @@ Vue.component('edit-post-modal', {
         },
         editVersion: function (versionId) {
             window.location.href = "Admin/Edit/" + versionId
+        },
+        togglePublish: function () {
+            let payload = { postId: this.post.postId, published: !this.post.published }
+            this.$store.dispatch("togglePublish", payload)
         }
     },
     template:
@@ -38,6 +42,16 @@ Vue.component('edit-post-modal', {
     <div class="modalStyle">
         <span class="closeStyle" @click="hide">&times;</span>
         <h1>Edit Post</h1>
+        <div>
+            <template v-if="post.published">
+                <label>Status: Published</label>
+                <button class="btn btn-primary" @click="togglePublish">Unpublish</button>
+            </template>
+            <template v-else>
+                <label>Status: Unpublished</label>
+                <button class="btn btn-primary" @click="togglePublish">Publish</button>
+            </template>
+        </div>
         <div v-if="errors">
             <ul v-for="error in errors">
                 <li style="color: red">{{error}}</li>

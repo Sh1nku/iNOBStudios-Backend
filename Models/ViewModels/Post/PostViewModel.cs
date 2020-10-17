@@ -11,6 +11,7 @@ namespace iNOBStudios.Models.ViewModels.Post {
         public int PostId { get; set; }
         public bool Published { get; set; }
         public DateTime AddedTime { get; set; }
+        public DateTime? FirstPublished { get; set; }
         public virtual PostVersionViewModel CurrentVersion { get; set; }
         public virtual Dictionary<string, PostVersionViewModel> PostVersions { get; set; }
         public string AuthorId { get; set; }

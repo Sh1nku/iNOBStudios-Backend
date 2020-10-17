@@ -42,6 +42,9 @@ var store = new Vuex.Store({
         },
         addPostVersion: (state, value) => {
             state.posts[value.postId].postVersions.push(value);
+        },
+        setPublished: (state, value) => {
+            state.currentPost.published = value;
         }
     },
     actions: {
@@ -94,6 +97,23 @@ var store = new Vuex.Store({
                 headers: { "Authorization": "Bearer " + localStorage.getItem("jwt") },
                 success: function (result) {
                     context.commit('setCurrentVersion', payload);
+                },
+                error: function (result) {
+                    context.commit('setEditPostErrors', parseErrors(result));
+                }
+            });
+        },
+        togglePublish: (context, payload) => {
+            context.commit('setEditPostErrors', []);
+            $.ajax({
+                type: "put",
+                url: "/api/Post/Post",
+                data: JSON.stringify(payload),
+                contentType: "application/json",
+                dataType: "json",
+                headers: { "Authorization": "Bearer " + localStorage.getItem("jwt") },
+                success: function (result) {
+                    context.commit('setPublished', result.published);
                 },
                 error: function (result) {
                     context.commit('setEditPostErrors', parseErrors(result));
