@@ -2,7 +2,29 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@section Head {
+    <link rel="stylesheet" type="text/css" href="~/css/postStyle.css" asp-append-version="true" />
+
+    <script src="~/js/helpers.js" asp-append-version="true"></script>
+    <script src="~/js/Tools/postParser.js" asp-append-version="true"></script>
+    <script src="~/js/Home/Index/store.js" asp-append-version="true"></script>
+    <script src="~/js/Home/Index/app.js" asp-append-version="true"></script>
+}
+
+<script type="text/javascript">
+    var model = @Json.Serialize(@Model);
+</script>
+
+<template v-if="posts">
+    <div class="row" v-for="post in posts">
+        <div class="col-sm">
+            <h4>{{post.currentVersion.title}}</h4>
+            <label>Posted on {{post.firstPublished.substr(0,10)}} | </label>
+            <label>Tags:</label> <a href="#" v-for="tag in post.postTags">{{tag}}</a>
+            <hr />
+            <br />
+            <div class="post" v-html="post.currentVersion.previewText"></div>
+            <a :href="'Post/'+post.postId">Continue reading</a>
+        </div>
+    </div>
+</template>
