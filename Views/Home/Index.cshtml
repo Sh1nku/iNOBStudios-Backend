@@ -15,16 +15,24 @@
     var model = @Json.Serialize(@Model);
 </script>
 
-<template v-if="posts">
+<template v-if="posts && posts.length > 0">
     <div class="row" v-for="post in posts">
         <div class="col-sm">
             <h4>{{post.currentVersion.title}}</h4>
             <label>Posted on {{post.firstPublished.substr(0,10)}} | </label>
-            <label>Tags:</label> <a href="#" v-for="tag in post.postTags">{{tag}}</a>
+            <label>Tags:</label> <a :href="'?limit='+limit+'&offset='+offset+'&tag='+tag" v-for="tag in post.postTags">{{tag}}</a>
             <hr />
             <br />
             <div class="post" v-html="post.currentVersion.previewText"></div>
             <a :href="'Post/'+post.postId">Continue reading</a>
+        </div>
+    </div>
+</template>
+<template v-else>
+    <div class="row">
+        <div class="col-sm">
+            <h4>No posts found</h4>
+            <a href="/">Go back to homepage</a>
         </div>
     </div>
 </template>

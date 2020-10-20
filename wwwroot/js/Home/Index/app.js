@@ -5,6 +5,12 @@
         computed: {
             posts() {
                 return this.$store.state.posts;
+            },
+            limit() {
+                return this.$store.state.limit;
+            },
+            offset() {
+                return this.$store.state.offset;
             }
         },
         data: {
