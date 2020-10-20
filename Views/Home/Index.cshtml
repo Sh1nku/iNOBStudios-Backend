@@ -18,13 +18,19 @@
 <template v-if="posts && posts.length > 0">
     <div class="row" v-for="post in posts">
         <div class="col-sm">
-            <h4>{{post.currentVersion.title}}</h4>
+            <a class="post-title" :href="'Post/'+post.postId+'/'+post.currentVersion.title"><h2>{{post.currentVersion.title}}</h2></a>
             <label>Posted on {{post.firstPublished.substr(0,10)}} | </label>
-            <label>Tags:</label> <a :href="'?limit='+limit+'&offset='+offset+'&tag='+tag" v-for="tag in post.postTags">{{tag}}</a>
+            <label>Tags:</label> 
+            <template v-if="post.postTags.length > 0">
+                <a :href="'?limit='+limit+'&offset='+offset+'&tag='+tag" v-for="tag in post.postTags">{{tag}}</a>
+            </template>
+            <template v-else>
+                Not Tagged
+            </template>
             <hr />
-            <br />
-            <div class="post" v-html="post.currentVersion.previewText"></div>
-            <a :href="'Post/'+post.postId">Continue reading</a>
+            <div class="post" v-html="parsePost(post.currentVersion.previewText)"></div>
+            <a :href="'Post/'+post.postId+'/'+post.currentVersion.title">Continue reading</a>
+            <hr />
         </div>
     </div>
 </template>

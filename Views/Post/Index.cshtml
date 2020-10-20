@@ -26,6 +26,6 @@
             <a v-for="tag in post.postTags" href="#">{{tag}}</a>
         </div>
         <hr />
-        <div v-html="post.currentVersion.rawText"></div>
+        <div v-html="parsePost(post.currentVersion.rawText)"></div>
     </div>
 </div>
