@@ -42,7 +42,11 @@ function parseJsonText(totalText,variable) {
 }
 
 function imgParser(variable) {
-    return `<img src="${variable['src']}" alt="${variable['alt']}" "></img>`;
+    let text = `<img src="${variable['src']}" alt="${variable['alt']}" "></img>`;
+    if ('text' in variable) {
+        text += `<div class="img-text">${variable['text']}</div>`;
+    }
+    return text;
 }
 
 function h1Parser(variable) {
