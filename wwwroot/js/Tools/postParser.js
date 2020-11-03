@@ -1,4 +1,18 @@
 ﻿function parsePost(text) {
+    let code = [...text.matchAll(/```(\w+)[\n|\s](.+?)```\n{0,1}/gmis)];
+    for (let x of code) {
+        let newCode = document.createElement('div');
+        if (/\n/.exec(x[0])) {
+            newCode.innerHTML = `<pre class="code"><code class="${x[1]}">${x[2].replaceAll('<', '&lt').replaceAll('>', '&gt')}</code></pre>`;
+        }
+        else {
+            newCode.innerHTML = `<pre class="code inline"><code class="${x[1]}">${x[2].replaceAll('<', '&lt').replaceAll('>', '&gt')}</code></pre>`;
+        }
+        hljs.highlightBlock(newCode);
+        text = text.replace(x[0], newCode.innerHTML);
+    }
+
+
     let variables = [...text.matchAll(/\@\[(.{0,}?)\]\@/g)];
     let resultText = [];
     let i = 0;
