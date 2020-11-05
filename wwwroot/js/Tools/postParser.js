@@ -1,4 +1,6 @@
-﻿function parsePost(text) {
+﻿var referenceCounter = 1;
+
+function parsePost(text) {
     let code = [...text.matchAll(/```(\w+)[\n|\s](.+?)```\n{0,1}/gmis)];
     for (let x of code) {
         let newCode = document.createElement('div');
@@ -17,6 +19,12 @@
     let resultText = [];
     let i = 0;
     let index = 0;
+
+    referenceCounter = 1;
+    if (typeof window["clearReferences"] === "function") {
+        window['clearReferences']();
+    }
+
     while (i != text.length) {
         if (index != variables.length) {
             if (variables[index].index == i) {
@@ -65,4 +73,12 @@ function imgParser(variable) {
 
 function h1Parser(variable) {
     return `<h1 style="margin-left:auto;margin-right:auto;">${variable}</h1>`
+}
+
+function referenceParser(variable) {
+    if (typeof window["addReference"] === "function" && 'text' in variable) {
+        window['addReference']({ 'count': referenceCounter, 'text': variable['text'] });
+    }
+    return `<sup>[${referenceCounter++}]</sup>`;
+    
 }

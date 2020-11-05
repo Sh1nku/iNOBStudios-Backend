@@ -1,5 +1,6 @@
-﻿$(document).ready(function () {
-    new Vue({
+﻿var vueReference = null;
+$(document).ready(function () {
+    vueReference = new Vue({
         el: '#main-container',
         store: store,
         computed: {

@@ -26,6 +26,17 @@
             <a v-for="tag in post.postTags" href="#">{{tag}}</a>
         </div>
         <hr />
-        <div v-html="parsePost(post.currentVersion.rawText)"></div>
+        <div v-html="parsedText"></div>
+        <template v-if="references && references.length > 0">
+            <hr />
+            <table>
+                <tbody>
+                    <tr v-for="reference in references">
+                        <td valign="top"><strong>[{{reference.count}}]</strong></td>
+                        <td>{{reference.text}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </template>
     </div>
 </div>
