@@ -32,8 +32,8 @@
             <table>
                 <tbody>
                     <tr v-for="reference in references">
-                        <td valign="top"><strong>[{{reference.count}}]</strong></td>
-                        <td>{{reference.text}}</td>
+                        <td valign="top"><a :href="'#ref_'+reference.count+'_top'"><strong>[{{reference.count}}]</strong></a></td>
+                        <td :id="'ref_'+reference.count+'_bot'">{{reference.text}}</td>
                     </tr>
                 </tbody>
             </table>

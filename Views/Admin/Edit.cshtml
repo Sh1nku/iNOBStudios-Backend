@@ -41,14 +41,17 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Filename</th>
-                        <th>Delete</th>
+                        <th>Link</th>
+                        <th>Manage</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="file in post.externalFiles">
-                        <td>{{file.fileName}}</td>
-                        <td><button @@click="removeFile(file.fileName)">Delete</button></td>
+                        <td>
+                            <a :href="location.protocol + '//' + location.host + '/api/ExternalFile/' + file.fileName">{{file.fileName}}</a>
+                        </td>
+                        <td><button @@click="removeFile(file.fileName)">Delete</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>

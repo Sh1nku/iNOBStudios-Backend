@@ -77,6 +77,17 @@ namespace iNOBStudios.Controllers {
 
         }
 
+        [HttpGet]
+        [Route("{filename}")]
+        public IActionResult GetFile(string filename) {
+            var file = externalFileRepository.GetExternalFileByFileName(filename, false, new string[] { "RawFile" });
+            if (file == null) {
+                return NotFound();
+            }
+            return File(file.RawFile.Data, file.MIMEType, file.FileName.Substring(0, file.FileName.LastIndexOf('-')));
+
+        }
+
         private byte[] GetByteArrayFromFile(IFormFile file) {
             using (var target = new MemoryStream()) {
                 file.CopyTo(target);

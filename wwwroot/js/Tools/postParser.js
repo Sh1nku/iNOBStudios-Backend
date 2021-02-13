@@ -28,21 +28,22 @@ function parsePost(text) {
     while (i != text.length) {
         if (index != variables.length) {
             if (variables[index].index == i) {
+                console.log(parseJsonText(variables[index][0], variables[index][1]));
                 resultText.push(parseJsonText(variables[index][0],variables[index][1]));
                 i += variables[index][0].length;
                 index++;
             }
             else {
-                resultText.push(text.substr(i, variables[index].index-i).replaceAll('\n','<br>'));
+                resultText.push(text.substr(i, variables[index].index - i));
                 i = variables[index].index;
             }
         }
         else {
-            resultText.push(text.substr(i).replaceAll('\n', '<br>'));
+            resultText.push(text.substr(i));
             i = text.length;
         }
     }
-    return resultText.join('');
+    return resultText.join('').replaceAll(/(?<!>)\n/g, '<br>');
 }
 
 function parseJsonText(totalText,variable) {
@@ -79,6 +80,6 @@ function referenceParser(variable) {
     if (typeof window["addReference"] === "function" && 'text' in variable) {
         window['addReference']({ 'count': referenceCounter, 'text': variable['text'] });
     }
-    return `<sup>[${referenceCounter++}]</sup>`;
+    return `<a href="#ref_${referenceCounter}_bot"><sup id="ref_${referenceCounter}_top">[${referenceCounter++}]</sup></a>`;
     
 }

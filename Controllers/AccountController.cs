@@ -79,6 +79,10 @@ namespace iNOBStudios.Controllers
             return View(model);
         }*/
 
+        public IActionResult About() {
+            return View();
+        }
+
         public IActionResult Logout()
         {
             Response.Cookies.Delete(".AspNetCore.Identity.Application");
