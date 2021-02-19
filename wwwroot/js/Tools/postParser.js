@@ -28,7 +28,6 @@ function parsePost(text) {
     while (i != text.length) {
         if (index != variables.length) {
             if (variables[index].index == i) {
-                console.log(parseJsonText(variables[index][0], variables[index][1]));
                 resultText.push(parseJsonText(variables[index][0],variables[index][1]));
                 i += variables[index][0].length;
                 index++;
