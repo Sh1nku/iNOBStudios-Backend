@@ -2,7 +2,9 @@
   "ConnectionStrings": {
     "DefaultConnection": "server=SERVER;database=DATABASE;user=USER;password=PASSWORD"
   },
-  "AuthToken": "TOKEN",
+  "TokenSettings": {
+    "SecretKey": "SECRETKEYHERE"
+  },
   "Logging": {
     "LogLevel": {
       "Default": "Information",
