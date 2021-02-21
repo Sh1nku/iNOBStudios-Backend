@@ -1,0 +1,31 @@
+<?php
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting( E_ALL );
+
+//This script compares the webhook given by github with a locally stored version, and runs the script update-server-version.py if it matches
+//You might need to be able to run the script as another user. Which can be achieved with this with visudo
+// PHP_USER ALL = (GITHUB_OWNER_USER)  NOPASSWD: SOURCE_DIR/server-files/update-server-version.py
+
+$secret = 'SECRET_HERE';
+$service_name = 'SERVICE_NAME_HERE';
+$user = 'USER_HERE'
+$source_dir = 'SOURCE_DIR_HERE';
+
+$contents = file_get_contents('php://input');
+$secretFrom =  $_SERVER["HTTP_X_HUB_SIGNATURE"];
+
+if(hash_equals($secretFrom, 'sha1='.hash_hmac('sha1', $contents, $secret))) {
+    $json = json_decode($contents, true);
+    if($json["action"] == "published") {
+        print("published");
+        $tag = $json["release"]["tag_name"];
+        shell_exec('(cd '.escapeshellarg($source_dir).'/server-files && sudo -u '.escapeshellarg($user).' ./update-server-version.py '.escapeshellarg($service_name).' '.escapeshellarg($tag).')');
+        exit;
+    }
+    print("Not Published");
+}
+else {
+    header("HTTP/1.1 401 Unauthorized");
+    exit;
+}
