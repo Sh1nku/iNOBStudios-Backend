@@ -23,7 +23,7 @@
             <label>Posted on {{post.firstPublished.substr(0, 10)}}</label> |
             <label>Last updated {{post.currentVersion.postedDate.substr(0, 10)}}</label> |
             <label>Tags: </label>
-            <a v-for="tag in post.postTags" href="#">{{tag}}</a>
+            <a v-for="tag in post.postTags" :href="'/?tag='+tag">{{tag}}</a>
         </div>
         <hr />
         <div v-html="parsedText"></div>
