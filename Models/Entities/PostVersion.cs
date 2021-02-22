@@ -19,7 +19,7 @@ namespace iNOBStudios.Models.Entities {
         public DateTime PostedDate { get; set; }
         [MaxLength(191)]
         public string Title { get; set; }
-        [MaxLength(511)]
+        [MaxLength(2047)]
         public string PreviewText { get; set; }
         public virtual RawText RawText { get; set; }
 

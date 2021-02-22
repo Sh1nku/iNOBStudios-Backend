@@ -11,6 +11,10 @@
     <Compile Remove="Migrations\20200730212550_Initial DB.Designer.cs" />
     <Compile Remove="Migrations\20200819175308_Finish structure.cs" />
     <Compile Remove="Migrations\20200819175308_Finish structure.Designer.cs" />
+    <Compile Remove="Migrations\20210222181839_Increase preview text size.cs" />
+    <Compile Remove="Migrations\20210222181839_Increase preview text size.Designer.cs" />
+    <Compile Remove="Migrations\20210222182230_Increase preview text size.cs" />
+    <Compile Remove="Migrations\20210222182230_Increase preview text size.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
