@@ -35,6 +35,12 @@
     border: 2px solid lightgray;
 }
 
+pre code.hljs {
+    background-color: initial;
+    display: inline;
+    padding:0;
+}
+
 .post .inline {
     display: inline;
 }

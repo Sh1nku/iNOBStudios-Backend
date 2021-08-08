@@ -5,13 +5,12 @@ function parsePost(text) {
     for (let x of code) {
         let newCode = document.createElement('div');
         if (/\n/.exec(x[0])) {
-            newCode.innerHTML = `<pre class="code"><code class="${x[1]}">${x[2].replaceAll('<', '&lt').replaceAll('>', '&gt')}</code></pre>`;
+            newCode.innerHTML = `<pre class="code"><code class="language-${x[1]}">${_.escape(x[2])}</code></pre>`;
         }
         else {
-            newCode.innerHTML = `<pre class="code inline"><code class="${x[1]}">${x[2].replaceAll('<', '&lt').replaceAll('>', '&gt')}</code></pre>`;
+            newCode.innerHTML = `<pre class="code inline"><code class="language-${x[1]}">${_.escape(x[2])}</code></pre>`;
         }
-        hljs.highlightBlock(newCode);
-        text = text.replace(x[0], newCode.innerHTML);
+        text = text.replace(x[0], newCode.innerHTML.replaceAll('\n', '&keepbreak'));
     }
 
 
@@ -42,7 +41,7 @@ function parsePost(text) {
             i = text.length;
         }
     }
-    return resultText.join('').replaceAll(/(?<!>)\n/g, '<br>');
+    return resultText.join('').replaceAll(/(?<!>)\n/g, '<br>').replaceAll('&keepbreak','\n');
 }
 
 function parseJsonText(totalText,variable) {
