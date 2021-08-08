@@ -24,15 +24,15 @@ $(document).ready(function () {
             this.$nextTick(function () {
                 this.$store.dispatch('init');
                 document.querySelectorAll('pre code').forEach((block) => {
-                    hljs.highlightBlock(block)
+                    hljs.highlightElement(block)
                 });
             });
         },
         updated: function () {
             this.$nextTick(function () {
                 document.querySelectorAll('pre code').forEach((block) => {
-                    if (block.childElementCount == 0) {
-                        hljs.highlightBlock(block)
+                    if (!block.classList.contains('hljs')) {
+                        hljs.highlightElement(block);
                     }
                 });
             });

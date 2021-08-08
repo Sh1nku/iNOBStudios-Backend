@@ -84,7 +84,7 @@
                 window.addEventListener("resize", this.updateScale);
                 window.addEventListener("mouseup", this.updateScale);
                 document.querySelectorAll('pre code').forEach((block) => {
-                    hljs.highlightBlock(block)
+                    hljs.highlightElement(block)
                 })
                 this.updateScale();
             });
@@ -92,8 +92,8 @@
         updated: function () {
             this.$nextTick(function () {
                 document.querySelectorAll('pre code').forEach((block) => {
-                    if (block.childElementCount == 0) {
-                        hljs.highlightBlock(block)
+                    if (!block.classList.contains('hljs')) {
+                        hljs.highlightElement(block);
                     }
                 });
             });
