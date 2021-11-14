@@ -1,6 +1,6 @@
 ﻿# iNOBStudios
 ![](https://inobstudios.com/LOCCounterBadge/iNOBStudios/responses/pybadges)<br>
-This is the blog engine runnning at [iNOBStudios.com](https://inobstudios.com) It is written using `ASP.Net Core 3.0` and `Vue.js`
+This is the API for the blog engine runnning at [iNOBStudios.com](https://inobstudios.com) It is written using `ASP.Net Core 3.0`, while the front end uses `Svelte`
 I wanted to write a blog with the following features
 
  - Front-end driven layout processing (the back-end just delivers data)
@@ -11,4 +11,6 @@ I wanted to write a blog with the following features
  - Images with descriptions
  - References
 
-I made a [blog post](https://inobstudios.com/Post/4/A%20new%20front-page) describing the implementation and features
+ In addition the following items are not yet implemented
+ - Static aliases for posts
+ - API driven customizable menus
