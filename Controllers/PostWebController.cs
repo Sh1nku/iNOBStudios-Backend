@@ -193,6 +193,9 @@ namespace iNOBStudios.Controllers
                 postVersion.RawText.Text = model.RawText;
                 postVersion.PreviewText = model.PreviewText;
             }
+            if (model.Title != null && model.Title.Length > 0) {
+                postVersion.Title = model.Title;
+            }
             try {
                 postVersion.PostedDate = DateTime.Now;
                 postVersion = postRepository.UpdatePostVersion(postVersion);

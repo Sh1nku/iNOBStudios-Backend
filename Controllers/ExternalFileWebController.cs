@@ -84,7 +84,8 @@ namespace iNOBStudios.Controllers {
             if (file == null) {
                 return NotFound();
             }
-            return File(file.RawFile.Data, file.MIMEType, file.FileName.Substring(0, file.FileName.LastIndexOf('-')));
+            Response.Headers.Add("Content-Disposition", "inline; filename=" + file.FileName.Substring(0, file.FileName.LastIndexOf('-')));
+            return File(file.RawFile.Data, file.MIMEType);
 
         }
 

@@ -8,6 +8,9 @@ namespace iNOBStudios.Models.ViewModels.PostVersion {
     public class UpdatePostVersionViewModel {
         [Required]
         public int PostVersionId { get; set; }
+
+        public String? Title { get; set; }
+
         public String RawText { get; set; }
         public String PreviewText { get; set; }
     }
