@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace iNOBStudios.Controllers
 {
-    [Route("api/Post")]
+    [Route("Post")]
     [ApiController]
     public class PostWebController : ControllerBase
     {
@@ -28,6 +28,44 @@ namespace iNOBStudios.Controllers
             this.postRepository = postRepository;
             this.tagRepository = tagRepository;
         }
+
+        [HttpGet]
+        [Route("Posts")]
+        public IActionResult GetPosts([FromQuery] int offset = 0, int limit = 10, string tag = null) {
+            limit = limit > 10 ? 10 : limit;
+            IEnumerable<Post> posts = new List<Post>();
+            var model = new Dictionary<string, Object>();
+            if (tag != null) {
+                var tagEntity = tagRepository.GetTagByTagId(tag, true, new string[] { "PostTags.Post.CurrentVersion", "PostTags.Post.PostTags" });
+                if (tagEntity != null) {
+                    posts = tagEntity.PostTags.Select(x => x.Post);
+                    model.Add("tag", tag);
+                }
+            }
+            else {
+                posts = postRepository.GetPosts(false, new string[] { "CurrentVersion", "PostTags" });
+            }
+            posts = posts.Where(x => x.Published).OrderByDescending(x => x.FirstPublished).Skip(offset).Take(limit);
+            model.Add("posts", posts.Select(x => Conversions.PostViewModelFromPost(x)));
+            model.Add("offset", offset);
+            model.Add("limit", limit);
+            return Ok(model);
+        }
+
+        [HttpGet]
+        [Route("Post/{postId}")]
+        [Route("Post/{postId}/{postName}")]
+        public IActionResult GetPost([FromRoute] int postId, [FromRoute] string postName) {
+            var post = postRepository.GetPostByPostId(postId, false, new string[] { "CurrentVersion.RawText", "PostTags" });
+            if (post == null) {
+                return NotFound();
+            }
+            if (!post.Published) {
+                return Forbid();
+            }
+            return Ok(Conversions.PostViewModelFromPost(post));
+        }
+
 
         [Authorize]
         [HttpPost]

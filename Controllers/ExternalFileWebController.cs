@@ -12,7 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace iNOBStudios.Controllers {
-    [Route("api/ExternalFile")]
+    [Route("ExternalFile")]
     [ApiController]
     public class ExternalFileWebController : ControllerBase {
         private IUserRepository userRepository;

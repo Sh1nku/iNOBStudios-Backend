@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace iNOBStudios.Controllers {
-    [Route("api/Account")]
+    [Route("Account")]
     [ApiController]
     public class AccountWebController : ControllerBase {
         private UserManager<ApplicationUser> userManager;
@@ -21,19 +21,15 @@ namespace iNOBStudios.Controllers {
             this.userManager = userManager;
         }
         [HttpPost]
-        public async Task<ActionResult<String>> TryLogin([FromBody] LoginUserViewModel u) {
-            String token = await CreateToken(u, userManager);
-            if (token != null) {
-                return token;
-            }
-            return Forbid();
-        }
-
-        public static async Task<String> CreateToken(LoginUserViewModel u, UserManager<ApplicationUser> userManager) {
+        [Route("Login")]
+        public async Task<ActionResult<String>> Login([FromBody] LoginUserViewModel u) {
             ApplicationUser user = await userManager.FindByNameAsync(u.UserName);
-            bool result = await userManager.CheckPasswordAsync(await userManager.FindByNameAsync(u.UserName), u.Password);
-            if (await userManager.CheckPasswordAsync(await userManager.FindByNameAsync(u.UserName), u.Password)) {
-                var roles = await userManager.GetRolesAsync(await userManager.FindByNameAsync(u.UserName));
+            if (user == null) {
+                return NotFound();
+            }
+            
+            if (await userManager.CheckPasswordAsync(user, u.Password)) {
+                var roles = await userManager.GetRolesAsync(user);
                 var claims = new List<Claim>();
                 claims.Add(new Claim(ClaimTypes.Name, u.UserName));
                 foreach (var role in roles) {
@@ -47,7 +43,7 @@ namespace iNOBStudios.Controllers {
 
                 return new JwtSecurityTokenHandler().WriteToken(token);
             }
-            return null;
+            return StatusCode(403);
         }
     }
 }

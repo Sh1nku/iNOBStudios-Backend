@@ -1,9 +1,0 @@
-﻿@{
-    ViewData["Title"] = "Logout";
-    Layout = null;
-}
-
-<script>
-    localStorage.removeItem("jwt")
-    window.location.replace('@Url.Action("Index", "Home")');
-</script>

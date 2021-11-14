@@ -16,6 +16,10 @@ using System;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using iNOBStudios.Data.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Net;
+using System.Threading.Tasks;
+using Microsoft.OpenApi.Models;
 
 namespace iNOBStudios
 {
@@ -31,12 +35,35 @@ namespace iNOBStudios
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder => {
+                        builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                    });
+            });
+
+
             services.AddMvc(options => {
 
             }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
             .AddJsonOptions(options => 
             options.JsonSerializerOptions.IgnoreNullValues = true)
             .AddRazorRuntimeCompilation();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "iNOBStudios API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey
+                });
+            });
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
@@ -50,14 +77,20 @@ namespace iNOBStudios
             var confKey = Configuration.GetSection("TokenSettings")["SecretKey"];
             AccountWebController.TOKEN = confKey;
             var key = Encoding.ASCII.GetBytes(confKey);
-            services.ConfigureApplicationCookie(options => {
-                options.LoginPath = "/Account/Login";
-                options.LogoutPath = "/Account/Logout";
+            services.ConfigureApplicationCookie(config => {
+                config.Events = new CookieAuthenticationEvents {
+                    OnRedirectToLogin = ctx => {
+                        ctx.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                        return Task.FromResult(0);
+                    }
+                };
             });
 
-            services.AddAuthentication()
-                .AddCookie(cfg => cfg.SlidingExpiration = true)
-                .AddJwtBearer(x =>
+            services.AddAuthentication(options => {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
                 {
                     x.TokenValidationParameters = new TokenValidationParameters
                     {
@@ -84,6 +117,7 @@ namespace iNOBStudios
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseCors("AllowAll");
             }
             else
             {
@@ -102,6 +136,11 @@ namespace iNOBStudios
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSwagger();
+            app.UseSwaggerUI(options => {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                options.RoutePrefix = string.Empty;
+            });
 
             app.UseAuthorization();
 
