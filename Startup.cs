@@ -134,6 +134,7 @@ namespace iNOBStudios
 
             app.UseAuthentication();
             app.UseStaticFiles();
+            app.UseCors("AllowAll");
 
             app.UseRouting();
             app.UseSwagger();
