@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace iNOBStudios.Controllers {
-    [Route("api/Tag")]
+    [Route("Tag")]
     [ApiController]
     public class TagWebController : ControllerBase {
         private IUserRepository userRepository;

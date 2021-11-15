@@ -12,7 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace iNOBStudios.Controllers {
-    [Route("api/ExternalFile")]
+    [Route("ExternalFile")]
     [ApiController]
     public class ExternalFileWebController : ControllerBase {
         private IUserRepository userRepository;
@@ -84,7 +84,8 @@ namespace iNOBStudios.Controllers {
             if (file == null) {
                 return NotFound();
             }
-            return File(file.RawFile.Data, file.MIMEType, file.FileName.Substring(0, file.FileName.LastIndexOf('-')));
+            Response.Headers.Add("Content-Disposition", "inline; filename=" + file.FileName.Substring(0, file.FileName.LastIndexOf('-')));
+            return File(file.RawFile.Data, file.MIMEType);
 
         }
 
