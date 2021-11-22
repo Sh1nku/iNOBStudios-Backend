@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>f2a28df2-fb3b-474b-a3e6-555f3c331f89</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,12 +16,27 @@
     <Compile Remove="Migrations\20210222181839_Increase preview text size.Designer.cs" />
     <Compile Remove="Migrations\20210222182230_Increase preview text size.cs" />
     <Compile Remove="Migrations\20210222182230_Increase preview text size.Designer.cs" />
+    <Compile Remove="Migrations\20211117202252_Add menu entity.cs" />
+    <Compile Remove="Migrations\20211117202252_Add menu entity.Designer.cs" />
+    <Compile Remove="Migrations\20211119210202_Create menus.cs" />
+    <Compile Remove="Migrations\20211119210202_Create menus.Designer.cs" />
+    <Compile Remove="Migrations\20211119210419_Create menus.cs" />
+    <Compile Remove="Migrations\20211119210419_Create menus.Designer.cs" />
+    <Compile Remove="Migrations\20211119210535_Create menus.cs" />
+    <Compile Remove="Migrations\20211119210535_Create menus.Designer.cs" />
+    <Compile Remove="Migrations\20211119211350_Create menus.cs" />
+    <Compile Remove="Migrations\20211119211350_Create menus.Designer.cs" />
+    <Compile Remove="Migrations\20211120162640_Create menus.cs" />
+    <Compile Remove="Migrations\20211120162640_Create menus.Designer.cs" />
+    <Compile Remove="Migrations\20211120174418_Create menus.cs" />
+    <Compile Remove="Migrations\20211120174418_Create menus.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.21" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.6">
@@ -30,6 +46,7 @@
     <PackageReference Include="Microsoft.IdentityModel" Version="7.0.0" />
     <PackageReference Include="Microsoft.OpenApi" Version="1.2.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>

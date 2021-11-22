@@ -35,6 +35,20 @@ namespace iNOBStudios.Data.Repositories {
             return post.Where(x => x.PostId == postId).AsNoTracking().SingleOrDefault();
         }
 
+        public Post GetPostByAlias(string alias, bool track = false, string[] info = null) {
+            if (alias == null) {
+                return null;
+            }
+            var post = db.Posts.AsQueryable();
+            foreach (var include in info ?? Enumerable.Empty<string>()) {
+                post = post.Include(include);
+            }
+            if (track) {
+                return post.Where(x => x.Alias == alias).SingleOrDefault();
+            }
+            return post.Where(x => x.Alias == alias).AsNoTracking().SingleOrDefault();
+        }
+
         public IEnumerable<Post> GetPosts(bool track = false, string[] info = null) {
             var posts = db.Posts.AsQueryable();
             foreach (var include in info ?? Enumerable.Empty<string>()) {
@@ -79,5 +93,6 @@ namespace iNOBStudios.Data.Repositories {
             db.SaveChanges();
             return postVersion;
         }
+
     }
 }

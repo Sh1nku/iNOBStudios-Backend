@@ -10,6 +10,7 @@ namespace iNOBStudios.Models.ViewModels.Post {
         public int PostId { get; set; }
         public bool? Published { get; set; }
         public int? CurrentVersion { get; set; }
+        public bool? List { get; set; }
         public List<string> PostTags { get; set; }
         public List<string> ExternalFiles { get; set; }
     }

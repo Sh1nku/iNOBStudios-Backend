@@ -11,7 +11,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Newtonsoft.Json;
 using System;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -20,6 +19,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.OpenApi.Models;
+using System.Collections.Generic;
 
 namespace iNOBStudios
 {
@@ -50,8 +50,7 @@ namespace iNOBStudios
             services.AddMvc(options => {
 
             }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
-            .AddJsonOptions(options => 
-            options.JsonSerializerOptions.IgnoreNullValues = true)
+            .AddNewtonsoftJson(x => { x.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;})
             .AddRazorRuntimeCompilation();
 
             services.AddSwaggerGen(c =>
@@ -61,7 +60,19 @@ namespace iNOBStudios
                     Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey
+                    Scheme = "bearer",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT"
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+                        },
+                        new List<string>()
+                    }
                 });
             });
 
@@ -109,6 +120,7 @@ namespace iNOBStudios
             services.AddTransient<IPostRepository, PostRepository>();
             services.AddTransient<IExternalFileRepository, ExternalFileRepository>();
             services.AddTransient<ITagRepository, TagRepository>();
+            services.AddTransient<IMenuRepository, MenuRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

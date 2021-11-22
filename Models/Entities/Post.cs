@@ -11,8 +11,12 @@ namespace iNOBStudios.Models.Entities
         [Key]
         public int PostId { get; set; }
         public bool Published { get; set; }
+        public bool List { get; set; }
         public DateTime AddedTime { get; set; }
         public DateTime? FirstPublished { get; set; }
+
+        public string Alias { get; set; }
+
         [InverseProperty("CurrentVersion")]
         public virtual PostVersion CurrentVersion { get; set; }
         public virtual IEnumerable<PostVersion> PostVersions { get; set; }
@@ -21,5 +25,6 @@ namespace iNOBStudios.Models.Entities
         public virtual ApplicationUser Author { get; set; }
         public IEnumerable<PostTag> PostTags { get; set; }
         public IEnumerable<ExternalFile> ExternalFiles { get; set; }
+        public IEnumerable<MenuItem> MenuItems { get; set; }
     }
 }

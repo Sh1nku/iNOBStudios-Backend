@@ -5,6 +5,11 @@
   "TokenSettings": {
     "SecretKey": "SECRETKEYHERE"
   },
+  "StandardUser": {
+    "Email": "emailhere",
+    "Username": "usernamehere",
+    "Password": "passwordhere"
+  }
   "Logging": {
     "LogLevel": {
       "Default": "Information",

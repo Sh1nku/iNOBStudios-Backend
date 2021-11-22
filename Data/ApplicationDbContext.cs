@@ -27,10 +27,41 @@ namespace iNOBStudios.Data {
                 .WithMany(x => x.PostTags)
                 .HasForeignKey(x => x.TagId);
 
+            builder.Entity<MenuItem>()
+                .HasOne(x => x.ParentMenuItem)
+                .WithMany(x => x.ChildMenuItems)
+                .HasForeignKey(x => x.ParentMenuItemId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<MenuItem>()
+                .HasOne(x => x.ParentMenuItem)
+                .WithMany(x => x.ChildMenuItems)
+                .HasForeignKey(x => x.ParentMenuItemId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<MenuItem>()
+                .HasOne(x => x.Post)
+                .WithMany(x => x.MenuItems)
+                .HasForeignKey(x => x.PostId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             //Indexes
 
             builder.Entity<ExternalFile>()
                 .HasIndex(x => x.PostId);
+            builder.Entity<ExternalFile>().HasIndex(entity => entity.PostId);
+            builder.Entity<ExternalFile>().HasIndex(entity => entity.PostedTime);
+
+            builder.Entity<Post>().HasIndex(entity => entity.Published);
+            builder.Entity<Post>().HasIndex(entity => entity.List);
+            builder.Entity<Post>().HasIndex(entity => entity.AddedTime);
+            builder.Entity<Post>().HasIndex(entity => entity.FirstPublished);
+            builder.Entity<Post>().HasIndex(entity => entity.Alias).IsUnique();
+
+            builder.Entity<PostVersion>().HasIndex(entity => entity.PostId);
+            builder.Entity<PostVersion>().HasIndex(entity => entity.PostedDate);
+
+            builder.Entity<MenuItem>().HasIndex(entity => entity.Priority);
 
             //Auth
             builder.Entity<ApplicationUser>(entity => entity.Property(m => m.ProfilePicture).HasMaxLength(191));
@@ -41,6 +72,10 @@ namespace iNOBStudios.Data {
             builder.Entity<Tag>(entity => entity.Property(m => m.TagId).HasMaxLength(64));
             builder.Entity<PostVersion>(entity => entity.Property(m => m.Title).HasMaxLength(191));
             builder.Entity<PostVersion>(entity => entity.Property(m => m.PreviewText).HasMaxLength(2047));
+
+            builder.Entity<Post>(entity => entity.Property(m => m.Alias).HasMaxLength(256));
+            builder.Entity<MenuItem>(entity => entity.Property(m => m.Name).HasMaxLength(128));
+            builder.Entity<MenuItem>(entity => entity.Property(m => m.Link).HasMaxLength(256));
 
             builder.Entity<ApplicationUser>(entity => entity.Property(m => m.Id).HasMaxLength(128));
             builder.Entity<ApplicationUser>(entity => entity.Property(m => m.UserName).HasMaxLength(128));
@@ -74,6 +109,7 @@ namespace iNOBStudios.Data {
         public DbSet<ExternalFile> ExternalFiles { get; set; }
         public DbSet<RawFile> RawFiles { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Menu> Menus { get; set; }
         public DbSet<PostVersion> PostVersions { get; set; }
         public DbSet<RawText> RawTexts { get; set; }
 

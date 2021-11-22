@@ -11,6 +11,8 @@ namespace iNOBStudios.Data.Repositories {
         ApplicationUser GetApplicationUserByUsername(string userName, bool track = false, string[] info = null);
         ApplicationUser GetApplicationUserById(string id, bool track = false, string[] info = null);
 
+        bool LeastOneUser();
+
         Tuple<bool, List<string>> ValidatePassword(string password);
 
         Task<IdentityResult> CreateUser(RegisterUserViewModel model);
