@@ -14,7 +14,7 @@ namespace iNOBStudios.Data.Repositories {
         }
 
         public Menu CreateMenu(Menu menu) {
-            menu.JSON = Conversions.MenuJSONFromMenuItemViewModels(menu.MenuItems.Select(x => Conversions.MenuItemViewModelFromMenuItem(x)).ToList());
+            menu.JSON = menu.MenuItems != null ? Conversions.MenuJSONFromMenuItemViewModels(menu.MenuItems.Select(x => Conversions.MenuItemViewModelFromMenuItem(x)).ToList()) : null;
             db.Menus.Add(menu);
             db.SaveChanges();
             return menu;

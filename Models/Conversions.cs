@@ -50,7 +50,7 @@ namespace iNOBStudios.Models {
         public static MenuViewModel MenuViewModelFromMenu(Menu menu) {
             return new MenuViewModel() {
                 Name = menu.Name,
-                MenuItems = menu.MenuItems?.Select(x => MenuItemViewModelFromMenuItem(x)).ToList(),
+                MenuItems = menu.MenuItems?.Select(x => Conversions.MenuItemViewModelFromMenuItem(x)).ToList(),
                 JSON = menu.JSON
             };
         }
@@ -69,18 +69,14 @@ namespace iNOBStudios.Models {
         }
 
         //This does not need to be fast, as it only gets updated  when the menu updates
-        public static string MenuJSONFromMenuItemViewModels(List<MenuItemViewModel> menuItems) {
+        public static List<MenuItemViewModel> SortedMenuItemViewModelsFromMenuItemViewModels(List<MenuItemViewModel> menuItems) {
             var returnItems = new List<MenuItemViewModel>();
             for (int i = 0; i < menuItems.Count; i++) {
                 if(menuItems[i].ParentMenuItemId == null) {
                     returnItems.Add(RecursiveSortMenuItemViewModel(menuItems, menuItems[i]));
                 }
             }
-            return JsonConvert.SerializeObject(returnItems.OrderByDescending(x => x.Priority), new JsonSerializerSettings {
-                ContractResolver = new DefaultContractResolver() { 
-                     NamingStrategy = new CamelCaseNamingStrategy()
-                }
-            });
+            return returnItems.OrderByDescending(x => x.Priority).ToList();
         }
 
         protected static MenuItemViewModel RecursiveSortMenuItemViewModel(List<MenuItemViewModel> items, MenuItemViewModel item) {
@@ -92,6 +88,14 @@ namespace iNOBStudios.Models {
             }
             item.ChildMenuItems = children.OrderByDescending(x => x.Priority).ToList();
             return item;
+        }
+
+        public static string MenuJSONFromMenuItemViewModels(List<MenuItemViewModel> menuItems) {
+            return JsonConvert.SerializeObject(SortedMenuItemViewModelsFromMenuItemViewModels(menuItems), new JsonSerializerSettings {
+                ContractResolver = new DefaultContractResolver() {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                }
+            });
         }
 
 
