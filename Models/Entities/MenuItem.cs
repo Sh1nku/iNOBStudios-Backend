@@ -19,10 +19,12 @@ namespace iNOBStudios.Models.Entities {
         public int? ParentMenuItemId { get; set; }
         public virtual MenuItem ParentMenuItem { get; set; }
         public virtual IEnumerable<MenuItem> ChildMenuItems { get; set; }
+        [MaxLength(191)]
 
         public string Name { get; set; }
         public int Priority { get; set; }
         //Could either be an external link, or a Post
+        [MaxLength(1023)]
         public string? Link { get; set; }
 
 

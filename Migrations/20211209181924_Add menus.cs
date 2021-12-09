@@ -3,14 +3,14 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace iNOBStudios.Migrations
 {
-    public partial class Createmenus : Migration
+    public partial class Addmenus : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
                 name: "Alias",
                 table: "Posts",
-                maxLength: 256,
+                maxLength: 255,
                 nullable: true);
 
             migrationBuilder.AddColumn<bool>(
@@ -23,7 +23,7 @@ namespace iNOBStudios.Migrations
                 name: "Menus",
                 columns: table => new
                 {
-                    Name = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(maxLength: 191, nullable: false),
                     JSON = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -32,35 +32,35 @@ namespace iNOBStudios.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MenuItem",
+                name: "MenuItems",
                 columns: table => new
                 {
                     MenuItemId = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ParentMenuName = table.Column<string>(nullable: false),
                     ParentMenuItemId = table.Column<int>(nullable: true),
-                    Name = table.Column<string>(maxLength: 128, nullable: true),
+                    Name = table.Column<string>(maxLength: 191, nullable: true),
                     Priority = table.Column<int>(nullable: false),
-                    Link = table.Column<string>(maxLength: 256, nullable: true),
+                    Link = table.Column<string>(maxLength: 1023, nullable: true),
                     PostId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MenuItem", x => x.MenuItemId);
+                    table.PrimaryKey("PK_MenuItems", x => x.MenuItemId);
                     table.ForeignKey(
-                        name: "FK_MenuItem_MenuItem_ParentMenuItemId",
+                        name: "FK_MenuItems_MenuItems_ParentMenuItemId",
                         column: x => x.ParentMenuItemId,
-                        principalTable: "MenuItem",
+                        principalTable: "MenuItems",
                         principalColumn: "MenuItemId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MenuItem_Menus_ParentMenuName",
+                        name: "FK_MenuItems_Menus_ParentMenuName",
                         column: x => x.ParentMenuName,
                         principalTable: "Menus",
                         principalColumn: "Name",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MenuItem_Posts_PostId",
+                        name: "FK_MenuItems_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
                         principalColumn: "PostId",
@@ -104,30 +104,30 @@ namespace iNOBStudios.Migrations
                 column: "PostedTime");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MenuItem_ParentMenuItemId",
-                table: "MenuItem",
+                name: "IX_MenuItems_ParentMenuItemId",
+                table: "MenuItems",
                 column: "ParentMenuItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MenuItem_ParentMenuName",
-                table: "MenuItem",
+                name: "IX_MenuItems_ParentMenuName",
+                table: "MenuItems",
                 column: "ParentMenuName");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MenuItem_PostId",
-                table: "MenuItem",
+                name: "IX_MenuItems_PostId",
+                table: "MenuItems",
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MenuItem_Priority",
-                table: "MenuItem",
+                name: "IX_MenuItems_Priority",
+                table: "MenuItems",
                 column: "Priority");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "MenuItem");
+                name: "MenuItems");
 
             migrationBuilder.DropTable(
                 name: "Menus");

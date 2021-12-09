@@ -11,10 +11,12 @@ namespace iNOBStudios.Models.Entities
         [Key]
         public int PostId { get; set; }
         public bool Published { get; set; }
+
         public bool List { get; set; }
         public DateTime AddedTime { get; set; }
         public DateTime? FirstPublished { get; set; }
 
+        [MaxLength(255)]
         public string Alias { get; set; }
 
         [InverseProperty("CurrentVersion")]

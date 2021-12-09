@@ -32,6 +32,12 @@ namespace iNOBStudios.Data.Repositories {
             return menus.AsNoTracking().SingleOrDefault();
         }
 
+        public MenuItem GetMenuItemByMenuItemId(int id, bool track = false) {
+            var menuItem = db.MenuItems.Where(x => x.MenuItemId == id);
+            return track ?
+                menuItem.SingleOrDefault() : menuItem.AsNoTracking().SingleOrDefault();
+        }
+
         public IEnumerable<Menu> GetMenus(bool track = false, string[] info = null) {
             var menus = db.Menus.AsQueryable();
             foreach (var include in info ?? Enumerable.Empty<string>()) {
@@ -41,6 +47,23 @@ namespace iNOBStudios.Data.Repositories {
                 return menus;
             }
             return menus.AsNoTracking();
+        }
+
+        public MenuItem UpdateMenuItem(MenuItem menuItem) {
+            db.MenuItems.Update(menuItem);
+            db.SaveChanges();
+            return menuItem;
+        }
+
+        public MenuItem CreateMenuItem(MenuItem menuItem) {
+            db.MenuItems.Add(menuItem);
+            db.SaveChanges();
+            return menuItem;
+        }
+
+        public void RemoveMenuItem(MenuItem menuItem) {
+            db.MenuItems.Remove(menuItem);
+            db.SaveChanges();
         }
     }
 }

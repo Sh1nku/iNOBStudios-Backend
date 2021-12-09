@@ -257,7 +257,8 @@ namespace iNOBStudios.Migrations
             modelBuilder.Entity("iNOBStudios.Models.Entities.Menu", b =>
                 {
                     b.Property<string>("Name")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(191) CHARACTER SET utf8mb4")
+                        .HasMaxLength(191);
 
                     b.Property<string>("JSON")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
@@ -274,19 +275,19 @@ namespace iNOBStudios.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Link")
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
-                        .HasMaxLength(256);
+                        .HasColumnType("varchar(1023) CHARACTER SET utf8mb4")
+                        .HasMaxLength(1023);
 
                     b.Property<string>("Name")
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
-                        .HasMaxLength(128);
+                        .HasColumnType("varchar(191) CHARACTER SET utf8mb4")
+                        .HasMaxLength(191);
 
                     b.Property<int?>("ParentMenuItemId")
                         .HasColumnType("int");
 
                     b.Property<string>("ParentMenuName")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(191) CHARACTER SET utf8mb4");
 
                     b.Property<int?>("PostId")
                         .HasColumnType("int");
@@ -304,7 +305,7 @@ namespace iNOBStudios.Migrations
 
                     b.HasIndex("Priority");
 
-                    b.ToTable("MenuItem");
+                    b.ToTable("MenuItems");
                 });
 
             modelBuilder.Entity("iNOBStudios.Models.Entities.Post", b =>
@@ -317,8 +318,8 @@ namespace iNOBStudios.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Alias")
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
-                        .HasMaxLength(256);
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
 
                     b.Property<string>("AuthorId")
                         .IsRequired()

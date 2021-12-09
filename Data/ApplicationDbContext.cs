@@ -73,10 +73,6 @@ namespace iNOBStudios.Data {
             builder.Entity<PostVersion>(entity => entity.Property(m => m.Title).HasMaxLength(191));
             builder.Entity<PostVersion>(entity => entity.Property(m => m.PreviewText).HasMaxLength(2047));
 
-            builder.Entity<Post>(entity => entity.Property(m => m.Alias).HasMaxLength(256));
-            builder.Entity<MenuItem>(entity => entity.Property(m => m.Name).HasMaxLength(128));
-            builder.Entity<MenuItem>(entity => entity.Property(m => m.Link).HasMaxLength(256));
-
             builder.Entity<ApplicationUser>(entity => entity.Property(m => m.Id).HasMaxLength(128));
             builder.Entity<ApplicationUser>(entity => entity.Property(m => m.UserName).HasMaxLength(128));
             builder.Entity<ApplicationUser>(entity => entity.Property(m => m.Email).HasMaxLength(128));
@@ -110,6 +106,7 @@ namespace iNOBStudios.Data {
         public DbSet<RawFile> RawFiles { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Menu> Menus { get; set; }
+        public DbSet<MenuItem> MenuItems { get; set; }
         public DbSet<PostVersion> PostVersions { get; set; }
         public DbSet<RawText> RawTexts { get; set; }
 

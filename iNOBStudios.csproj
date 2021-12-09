@@ -6,30 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200730212204_Initial DB.cs" />
-    <Compile Remove="Migrations\20200730212204_Initial DB.Designer.cs" />
-    <Compile Remove="Migrations\20200730212550_Initial DB.cs" />
-    <Compile Remove="Migrations\20200730212550_Initial DB.Designer.cs" />
-    <Compile Remove="Migrations\20200819175308_Finish structure.cs" />
-    <Compile Remove="Migrations\20200819175308_Finish structure.Designer.cs" />
-    <Compile Remove="Migrations\20210222181839_Increase preview text size.cs" />
-    <Compile Remove="Migrations\20210222181839_Increase preview text size.Designer.cs" />
-    <Compile Remove="Migrations\20210222182230_Increase preview text size.cs" />
-    <Compile Remove="Migrations\20210222182230_Increase preview text size.Designer.cs" />
-    <Compile Remove="Migrations\20211117202252_Add menu entity.cs" />
-    <Compile Remove="Migrations\20211117202252_Add menu entity.Designer.cs" />
-    <Compile Remove="Migrations\20211119210202_Create menus.cs" />
-    <Compile Remove="Migrations\20211119210202_Create menus.Designer.cs" />
-    <Compile Remove="Migrations\20211119210419_Create menus.cs" />
-    <Compile Remove="Migrations\20211119210419_Create menus.Designer.cs" />
-    <Compile Remove="Migrations\20211119210535_Create menus.cs" />
-    <Compile Remove="Migrations\20211119210535_Create menus.Designer.cs" />
-    <Compile Remove="Migrations\20211119211350_Create menus.cs" />
-    <Compile Remove="Migrations\20211119211350_Create menus.Designer.cs" />
-    <Compile Remove="Migrations\20211120162640_Create menus.cs" />
-    <Compile Remove="Migrations\20211120162640_Create menus.Designer.cs" />
-    <Compile Remove="Migrations\20211120174418_Create menus.cs" />
-    <Compile Remove="Migrations\20211120174418_Create menus.Designer.cs" />
+    <Compile Remove="Migrations\20211209181837_Add menus.cs" />
+    <Compile Remove="Migrations\20211209181837_Add menus.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
