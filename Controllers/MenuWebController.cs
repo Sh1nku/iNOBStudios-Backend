@@ -143,11 +143,24 @@ namespace iNOBStudios.Controllers {
         [Route("MenuItem/{id}")]
         [Authorize]
         public IActionResult RemoveMenuItem([FromRoute] int id) {
-            var menuItem = menuRepository.GetMenuItemByMenuItemId(id);
+            var menuItem = menuRepository.GetMenuItemByMenuItemId(id, true);
             if (menuItem == null) {
                 return NotFound();
             }
             menuRepository.RemoveMenuItem(menuItem);
+            return Ok();
+        }
+
+
+        [HttpDelete]
+        [Route("Menu/{name}")]
+        [Authorize]
+        public IActionResult RemoveMenuItem([FromRoute] string name) {
+            var menu = menuRepository.GetMenuByName(name, true);
+            if (menu == null) {
+                return NotFound();
+            }
+            menuRepository.RemoveMenu(menu);
             return Ok();
         }
     }

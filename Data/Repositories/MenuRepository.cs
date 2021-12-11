@@ -9,13 +9,23 @@ using System.Threading.Tasks;
 namespace iNOBStudios.Data.Repositories {
     public class MenuRepository : IMenuRepository{
         private ApplicationDbContext db;
+
+        public void UpdateMenuJson(string menuName) {
+            if (menuName != null) {
+                var menu = db.Menus.Include("MenuItems").Where(x => x.Name == menuName).SingleOrDefault();
+                if (menu != null) {
+                    menu.JSON = menu.MenuItems.Count() > 0 ? Conversions.MenuJSONFromMenuItemViewModels(menu.MenuItems.Select(x => Conversions.MenuItemViewModelFromMenuItem(x)).ToList()) : null;
+                }
+            }
+        }
+
         public MenuRepository(ApplicationDbContext db) {
             this.db = db;
         }
 
         public Menu CreateMenu(Menu menu) {
-            menu.JSON = menu.MenuItems != null ? Conversions.MenuJSONFromMenuItemViewModels(menu.MenuItems.Select(x => Conversions.MenuItemViewModelFromMenuItem(x)).ToList()) : null;
             db.Menus.Add(menu);
+            UpdateMenuJson(menu.Name);
             db.SaveChanges();
             return menu;
         }
@@ -51,18 +61,29 @@ namespace iNOBStudios.Data.Repositories {
 
         public MenuItem UpdateMenuItem(MenuItem menuItem) {
             db.MenuItems.Update(menuItem);
+            UpdateMenuJson(menuItem.ParentMenuName);
             db.SaveChanges();
             return menuItem;
         }
 
         public MenuItem CreateMenuItem(MenuItem menuItem) {
             db.MenuItems.Add(menuItem);
+            UpdateMenuJson(menuItem.ParentMenuName);
             db.SaveChanges();
             return menuItem;
         }
 
         public void RemoveMenuItem(MenuItem menuItem) {
+            using var transaction = db.Database.BeginTransaction();
             db.MenuItems.Remove(menuItem);
+            db.SaveChanges();
+            UpdateMenuJson(menuItem.ParentMenuName);
+            db.SaveChanges();
+            transaction.Commit();
+        }
+
+        public void RemoveMenu(Menu menu) {
+            db.Menus.Remove(menu);
             db.SaveChanges();
         }
     }

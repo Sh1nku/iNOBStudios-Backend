@@ -14,5 +14,6 @@ namespace iNOBStudios.Data.Repositories {
 
         public MenuItem UpdateMenuItem(MenuItem menuItem);
         public void RemoveMenuItem(MenuItem menuItem);
+        public void RemoveMenu(Menu menu);
     }
 }
