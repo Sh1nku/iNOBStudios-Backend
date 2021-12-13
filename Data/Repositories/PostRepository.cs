@@ -12,6 +12,13 @@ namespace iNOBStudios.Data.Repositories {
             this.db = db;
         }
 
+        protected void UpdateMenuJsonIfPostInMenu(int postId) {
+            var menus = db.Menus.Where(x => x.MenuItems.Any(x => x.PostId == postId)).AsNoTracking().ToList();
+            foreach(var menu in menus) {
+                MenuRepository.UpdateMenuJson(db, menu.Name);
+            }
+        }
+
         public Post CreatePost(Post post) {
             db.Posts.Add(post);
             db.SaveChanges();
@@ -84,12 +91,14 @@ namespace iNOBStudios.Data.Repositories {
 
         public Post UpdatePost(Post post) {
             db.Posts.Update(post);
+            UpdateMenuJsonIfPostInMenu(post.PostId);
             db.SaveChanges();
             return post;
         }
 
         public PostVersion UpdatePostVersion(PostVersion postVersion) {
             db.PostVersions.Update(postVersion);
+            UpdateMenuJsonIfPostInMenu(postVersion.PostId);
             db.SaveChanges();
             return postVersion;
         }

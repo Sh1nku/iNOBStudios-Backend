@@ -10,11 +10,11 @@ namespace iNOBStudios.Data.Repositories {
     public class MenuRepository : IMenuRepository{
         private ApplicationDbContext db;
 
-        public void UpdateMenuJson(string menuName) {
+        public static void UpdateMenuJson(ApplicationDbContext db, string menuName) {
             if (menuName != null) {
-                var menu = db.Menus.Include("MenuItems").Where(x => x.Name == menuName).SingleOrDefault();
+                var menu = db.Menus.Include("MenuItems.Post.CurrentVersion").Where(x => x.Name == menuName).SingleOrDefault();
                 if (menu != null) {
-                    menu.JSON = menu.MenuItems.Count() > 0 ? Conversions.MenuJSONFromMenuItemViewModels(menu.MenuItems.Select(x => Conversions.MenuItemViewModelFromMenuItem(x)).ToList()) : null;
+                    menu.JSON = menu.MenuItems.Count() > 0 ? Conversions.MenuJSONFromMenuItems(menu.MenuItems.ToList()) : null;
                 }
             }
         }
@@ -25,7 +25,7 @@ namespace iNOBStudios.Data.Repositories {
 
         public Menu CreateMenu(Menu menu) {
             db.Menus.Add(menu);
-            UpdateMenuJson(menu.Name);
+            UpdateMenuJson(db, menu.Name);
             db.SaveChanges();
             return menu;
         }
@@ -61,14 +61,14 @@ namespace iNOBStudios.Data.Repositories {
 
         public MenuItem UpdateMenuItem(MenuItem menuItem) {
             db.MenuItems.Update(menuItem);
-            UpdateMenuJson(menuItem.ParentMenuName);
+            UpdateMenuJson(db, menuItem.ParentMenuName);
             db.SaveChanges();
             return menuItem;
         }
 
         public MenuItem CreateMenuItem(MenuItem menuItem) {
             db.MenuItems.Add(menuItem);
-            UpdateMenuJson(menuItem.ParentMenuName);
+            UpdateMenuJson(db, menuItem.ParentMenuName);
             db.SaveChanges();
             return menuItem;
         }
@@ -77,7 +77,7 @@ namespace iNOBStudios.Data.Repositories {
             using var transaction = db.Database.BeginTransaction();
             db.MenuItems.Remove(menuItem);
             db.SaveChanges();
-            UpdateMenuJson(menuItem.ParentMenuName);
+            UpdateMenuJson(db, menuItem.ParentMenuName);
             db.SaveChanges();
             transaction.Commit();
         }
