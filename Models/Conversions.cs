@@ -20,6 +20,7 @@ namespace iNOBStudios.Models {
                 PostTags = post.PostTags?.Select(x => x.TagId).ToList(),
                 PostVersions = post.PostVersions?.Select(x => PostVersionViewModelFromPostVersion(x)).ToDictionary(x => x.PostVersionId.ToString(), x => x),
                 CurrentVersion = post.CurrentVersion != null ? PostVersionViewModelFromPostVersion(post.CurrentVersion) : null,
+                Alias = post.Alias,
                 Published = post.Published,
                 AddedTime = post.AddedTime,
                 FirstPublished = post.FirstPublished

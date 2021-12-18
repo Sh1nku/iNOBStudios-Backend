@@ -53,21 +53,33 @@ namespace iNOBStudios.Controllers
         }
 
         [HttpGet]
-        [Route("Post/{postId}")]
-        [Route("Post/{postId}/{postName}")]
-        [Route("Post/{alias}")]
-        public IActionResult GetPost([FromRoute] int? postId, [FromRoute] string alias, [FromRoute] string postName) {
+        [Route("Post/{postId:int}")]
+        [Route("Post/{postId:int}/{postName}")]
+        public IActionResult GetPostByPostId([FromRoute] int? postId) {
             Post post = null;
             if (postId != null) {
                 post = postRepository.GetPostByPostId((int)postId, false, new string[] { "CurrentVersion.RawText", "PostTags" });
             }
-            else if(alias != null) {
+            if (post == null) {
+                return NotFound();
+            }
+            if (!post.Published && !User.Identity.IsAuthenticated) {
+                return Forbid();
+            }
+            return Ok(Conversions.PostViewModelFromPost(post));
+        }
+
+        [HttpGet]
+        [Route("Post/{alias}")]
+        public IActionResult GetPostByAlias([FromRoute] string? alias) {
+            Post post = null;
+            if (alias != null) {
                 post = postRepository.GetPostByAlias(alias, false, new string[] { "CurrentVersion.RawText", "PostTags" });
             }
             if (post == null) {
                 return NotFound();
             }
-            if (!post.Published) {
+            if (!post.Published && !User.Identity.IsAuthenticated) {
                 return Forbid();
             }
             return Ok(Conversions.PostViewModelFromPost(post));
@@ -129,6 +141,9 @@ namespace iNOBStudios.Controllers
                         ModelState.AddModelError("PostVersion", "PostVersion not found");
                     }
                     post.CurrentVersion = postVersion;
+                }
+                if (model.AliasSet) {
+                    post.Alias = model.Alias;
                 }
                 if (model.Published != null) {
                     post.Published = (bool)model.Published;

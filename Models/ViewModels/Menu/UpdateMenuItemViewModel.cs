@@ -16,7 +16,6 @@ namespace iNOBStudios.Models.ViewModels.Menu {
         public int? ParentMenuItemId { 
             get => _parentMenuItemId; 
             set {
-                Console.WriteLine("Called");
                 _parentMenuItemId = value;
                 ParentMenuItemIdSet = true;
             }
