@@ -10,6 +10,7 @@ namespace iNOBStudios.Models.ViewModels.Post {
     public class PostViewModel {
         public int PostId { get; set; }
         public bool Published { get; set; }
+        public bool List { get; set; }
         public DateTime AddedTime { get; set; }
         public DateTime? FirstPublished { get; set; }
         public string Alias { get; set; }
