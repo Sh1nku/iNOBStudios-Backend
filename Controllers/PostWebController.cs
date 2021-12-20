@@ -45,7 +45,7 @@ namespace iNOBStudios.Controllers
             else {
                 posts = postRepository.GetPosts(false, new string[] { "CurrentVersion", "PostTags" });
             }
-            posts = posts.Where(x => x.Published).OrderByDescending(x => x.FirstPublished).Skip(offset).Take(limit);
+            posts = posts.Where(x => x.Published && x.List).OrderByDescending(x => x.FirstPublished).Skip(offset).Take(limit);
             model.Add("posts", posts.Select(x => Conversions.PostViewModelFromPost(x)));
             model.Add("offset", offset);
             model.Add("limit", limit);
@@ -53,14 +53,33 @@ namespace iNOBStudios.Controllers
         }
 
         [HttpGet]
-        [Route("Post/{postId}")]
-        [Route("Post/{postId}/{postName}")]
-        public IActionResult GetPost([FromRoute] int postId, [FromRoute] string postName) {
-            var post = postRepository.GetPostByPostId(postId, false, new string[] { "CurrentVersion.RawText", "PostTags" });
+        [Route("Post/{postId:int}")]
+        [Route("Post/{postId:int}/{postName}")]
+        public IActionResult GetPostByPostId([FromRoute] int? postId) {
+            Post post = null;
+            if (postId != null) {
+                post = postRepository.GetPostByPostId((int)postId, false, new string[] { "CurrentVersion.RawText", "PostTags" });
+            }
             if (post == null) {
                 return NotFound();
             }
-            if (!post.Published) {
+            if (!post.Published && !User.Identity.IsAuthenticated) {
+                return Forbid();
+            }
+            return Ok(Conversions.PostViewModelFromPost(post));
+        }
+
+        [HttpGet]
+        [Route("Post/{alias}")]
+        public IActionResult GetPostByAlias([FromRoute] string? alias) {
+            Post post = null;
+            if (alias != null) {
+                post = postRepository.GetPostByAlias(alias, false, new string[] { "CurrentVersion.RawText", "PostTags" });
+            }
+            if (post == null) {
+                return NotFound();
+            }
+            if (!post.Published && !User.Identity.IsAuthenticated) {
                 return Forbid();
             }
             return Ok(Conversions.PostViewModelFromPost(post));
@@ -89,7 +108,8 @@ namespace iNOBStudios.Controllers
                 CurrentVersion = postVersion,
                 PostVersions = new List<PostVersion>() { postVersion },
                 AddedTime = DateTime.Now,
-                FirstPublished = null
+                FirstPublished = null,
+                List = true
             };
             try {
                 post = postRepository.CreatePost(post);
@@ -122,11 +142,17 @@ namespace iNOBStudios.Controllers
                     }
                     post.CurrentVersion = postVersion;
                 }
+                if (model.AliasSet) {
+                    post.Alias = model.Alias;
+                }
                 if (model.Published != null) {
                     post.Published = (bool)model.Published;
                     if(post.FirstPublished == null) {
                         post.FirstPublished = DateTime.Now;
                     }
+                }
+                if (model.List != null) {
+                    post.List = (bool)model.List;
                 }
                 if (model.PostTags != null) {
                     var newTags = new List<PostTag>();

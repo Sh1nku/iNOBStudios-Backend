@@ -68,5 +68,9 @@ namespace iNOBStudios.Data.Repositories
             }
             return (ApplicationUser)user.Where(x => x.UserName == userName).AsNoTracking().SingleOrDefault();
         }
+
+        public bool LeastOneUser() {
+            return db.Users.Count() > 0;
+        }
     }
 }

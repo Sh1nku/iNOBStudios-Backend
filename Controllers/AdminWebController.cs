@@ -17,16 +17,26 @@ namespace iNOBStudios.Controllers
     {
         private IPostRepository postRepository;
         private ITagRepository tagRepository;
+        private IMenuRepository menuRepository;
 
-        public AdminWebController(IPostRepository postRepository, ITagRepository tagRepository) {
+        public AdminWebController(IPostRepository postRepository, ITagRepository tagRepository, IMenuRepository menuRepository) {
             this.postRepository = postRepository;
             this.tagRepository = tagRepository;
+            this.menuRepository = menuRepository;
         }
 
         [HttpGet]
-        public IActionResult Index() {
+        [Route("Posts")]
+        public IActionResult Posts() {
             var posts = postRepository.GetPosts(false, new string[] { "PostVersions", "CurrentVersion" });
             return Ok(posts.Select(x => Conversions.PostViewModelFromPost(x)).ToDictionary(x => x.PostId.ToString(), x => x));
+        }
+
+        [HttpGet]
+        [Route("Menus")]
+        public IActionResult Menus() {
+            var menus = menuRepository.GetMenus(false, new string[] { "MenuItems" });
+            return Ok(menus.Select(x => Conversions.MenuViewModelFromMenu(x)).ToDictionary(x => x.Name, x => x));
         }
 
         [HttpGet]
