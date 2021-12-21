@@ -51,6 +51,14 @@ namespace iNOBStudios.Controllers
             model.Add("limit", limit);
             return Ok(model);
         }
+        
+        [HttpGet]
+        [Route("SitemapPosts")]
+        public IActionResult SitemapPosts()
+        {
+            return Ok(postRepository.GetPosts(false,
+                new string[] {"CurrentVersion"}).Where(x => x.Published).Select(Conversions.SitemapPostViewModelFromPost));
+        }
 
         [HttpGet]
         [Route("Post/{postId:int}")]

@@ -78,7 +78,7 @@ namespace iNOBStudios.Models {
             };
             if(item.Post != null) {
                 if(item.Post.Alias != null) {
-                    ret.Link = item.Post.Alias;
+                    ret.Link = "/"+item.Post.Alias;
                 }
                 else {
                     ret.Link = "/Post/" + item.Post.PostId + "/" + item.Post.CurrentVersion.Title;
@@ -117,7 +117,17 @@ namespace iNOBStudios.Models {
             });
         }
 
-
+        public static SitemapPostViewModel SitemapPostViewModelFromPost(Post post)
+        {
+            return new SitemapPostViewModel()
+            {
+                Alias = post.Alias,
+                Title = post.CurrentVersion.Title,
+                FirstPublished = (DateTime) post.FirstPublished,
+                LastUpdated = post.CurrentVersion.PostedDate,
+                PostId = post.PostId
+            };
+        }
 
 
     }
