@@ -1,0 +1,9 @@
+version: '3.0'
+services:
+  inobstudios-backend:
+    image: ghcr.io/sh1nku/inobstudios-backend:${DOCKER_TAG}
+    ports:
+      - ${DOCKER_EXPOSED_PORT}:80
+    restart: unless-stopped
+    volumes:
+      - ./appsettings.json:/app/appsettings.json
